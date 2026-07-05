@@ -8,548 +8,276 @@
 
 
 /* ============================================================
-   THE STRATEGIC LINE — notes on golf course architecture.
-   Design language: simple vintage. An old golf book — aged paper,
-   walnut-brown chrome, forest green as the second tone, flat ochre
-   brass, double-ruled frames and printed-plate diagrams. Matte and
-   quiet; nothing glossy. Deliberately single-world.
+   THE STRATEGIC LINE — a gallery of template holes.
+   Layout rethink: the diagrams are the subject, shown as a wall of
+   plates you browse; click one for the full hole. Light aged-paper
+   ground, forest green as the lead accent, brass as the quiet
+   secondary. No hero band.
    ============================================================ */
-
 :root {
-  --paper: #ebe1c6;       /* aged paper */
-  --paper-2: #e2d6b4;
-  --parchment: #f3ead1;   /* lightest, for plates */
-  --ink: #2a1f14;         /* deep brown-black ink */
-  --ink-soft: #564835;
-  --ink-faint: #8a7855;
+  --paper: #efe8d5;
+  --paper-2: #e7ddc4;
+  --card: #f7f1e1;
+  --ink: #23201a;
+  --ink-soft: #524b39;
+  --ink-faint: #8a8067;
 
-  --brown: #3a2817;       /* walnut — chrome (header/hero/footer) */
-  --brown-2: #4b3622;
-  --green: #33503b;       /* forest — the second tone */
-  --green-deep: #294130;
-  --green-tint: rgba(51, 80, 59, 0.08);
-
-  --brass: #a9823f;       /* flat ochre brass — the one accent */
-  --brass-2: #c39c56;
+  --green: #2f5140;
+  --green-deep: #203a2c;
+  --green-tint: rgba(47, 81, 64, 0.07);
+  --brass: #a9823f;
   --brass-deep: #7d5f2b;
   --oxblood: #7a322c;
+  --cream: #efe6cd;
 
-  --cream: #efe6cd;       /* type/marks on the dark grounds */
+  --line: rgba(35, 32, 26, 0.16);
+  --line-2: rgba(35, 32, 26, 0.28);
+  --line-cream: rgba(239, 230, 205, 0.22);
 
-  --line: rgba(42, 31, 20, 0.26);       /* ruled lines (vintage weight) */
-  --line-soft: rgba(42, 31, 20, 0.14);
-  --line-cream: rgba(239, 230, 205, 0.26);
-
-  --room: 1080px;
+  --room: 1200px;
   --read: 40rem;
-
   --f-display: "Playfair Display", "Hoefler Text", Georgia, serif;
-  --f-body: "EB Garamond", "Iowan Old Style", "Palatino Linotype", Palatino,
-    Georgia, serif;
+  --f-body: "EB Garamond", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
   --f-ui: ui-sans-serif, system-ui, "Helvetica Neue", Arial, sans-serif;
 }
-
 * { box-sizing: border-box; }
-
 body {
-  margin: 0;
-  background: var(--paper);
-  color: var(--ink);
-  font-family: var(--f-body);
-  font-size: 19px;
-  line-height: 1.66;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
+  margin: 0; background: var(--paper); color: var(--ink);
+  font-family: var(--f-body); font-size: 19px; line-height: 1.6;
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
 }
-
-/* Faint even paper grain — flat and dry, like old stock */
 body::before {
-  content: "";
-  position: fixed; inset: 0; z-index: -1; pointer-events: none;
-  opacity: 0.6; mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  opacity: 0.5; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
 }
-
-h1, h2, h3, h4 {
-  font-family: var(--f-display);
-  font-weight: 700; line-height: 1.14; text-wrap: balance; margin: 0;
-}
+h1, h2, h3, h4 { font-family: var(--f-display); font-weight: 700; line-height: 1.12; text-wrap: balance; margin: 0; }
 p { margin: 0; }
 a { color: inherit; }
 em { font-style: italic; }
-
-.wrap { width: 100%; max-width: var(--room); margin: 0 auto; padding: 0 32px; }
-
-.eyebrow {
-  font-family: var(--f-ui); text-transform: uppercase; letter-spacing: 0.28em;
-  font-size: 10.5px; font-weight: 600; color: var(--brass-deep);
-}
-.on-dark .eyebrow { color: var(--brass-2); }
+.wrap { width: 100%; max-width: var(--room); margin: 0 auto; padding: 0 34px; }
+.eyebrow { font-family: var(--f-ui); text-transform: uppercase; letter-spacing: 0.26em; font-size: 10.5px; font-weight: 600; color: var(--brass-deep); }
 .num { font-variant-numeric: tabular-nums; }
-
-/* ---- Dark walnut grounds ---- */
-.brownbg { position: relative; background: var(--brown); color: var(--cream); }
-.greenbg { position: relative; background: var(--green); color: var(--cream); }
-
-/* Ruled dividers */
-.rule { border: 0; border-top: 1px solid var(--line); margin: 0; }
-.rule-brass { border: 0; border-top: 1px solid var(--brass); margin: 0; }
-.rule-cream { border: 0; border-top: 1px solid var(--line-cream); margin: 0; }
-
-/* Fleuron / ornamented divider (vintage) */
-.orn { display: flex; align-items: center; gap: 16px; }
-.orn::before, .orn::after { content: ""; flex: 1; height: 1px; background: var(--line); }
-.orn i { width: 7px; height: 7px; transform: rotate(45deg); background: var(--brass); box-shadow: 0 0 0 3px var(--paper), 0 0 0 4px var(--brass); }
-
-/* ---- Header ---- */
-.site-header { position: sticky; top: 0; z-index: 40; }
-.header-bar { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; padding: 16px 0; }
-.mark { display: flex; align-items: baseline; gap: 12px; text-decoration: none; color: var(--cream); }
-.mark .wordmark { font-family: var(--f-display); font-weight: 700; font-size: 20px; }
-.mark .estd { font-family: var(--f-ui); text-transform: uppercase; letter-spacing: 0.22em; font-size: 9.5px; color: rgba(239, 230, 205, 0.5); }
-.nav { display: flex; align-items: baseline; gap: 4px; flex-wrap: wrap; }
-.nav a {
-  font-family: var(--f-ui); font-size: 12px; letter-spacing: 0.09em;
-  text-transform: uppercase; color: rgba(239, 230, 205, 0.68);
-  text-decoration: none; padding: 6px 11px; cursor: pointer;
-  border-bottom: 1px solid transparent; transition: color 0.18s ease, border-color 0.18s ease;
-}
-.nav a:hover { color: var(--cream); border-bottom-color: var(--brass-2); }
-.nav a[aria-current="page"] { color: var(--brass-2); border-bottom-color: var(--brass-2); }
-.nav a:focus-visible, .mark:focus-visible { outline: 1px solid var(--brass-2); outline-offset: 3px; }
-
 .view[hidden] { display: none; }
-section { padding: 70px 0; }
 
-/* ---- Hero ---- */
-.hero { padding: 0; }
-.hero-inner { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 54px; align-items: center; padding: 82px 0 76px; }
-.hero h1 { font-size: clamp(34px, 5vw, 58px); letter-spacing: -0.005em; }
-.hero h1 em { color: var(--brass-2); }
-.hero .lede { margin-top: 22px; max-width: 42ch; font-size: 19.5px; color: rgba(239, 230, 205, 0.84); line-height: 1.68; }
-.begin {
-  display: inline-block; margin-top: 28px;
-  font-family: var(--f-ui); font-size: 12.5px; letter-spacing: 0.12em; text-transform: uppercase;
-  color: var(--cream); text-decoration: none; cursor: pointer;
-  border: 1px solid var(--brass); padding: 11px 20px; transition: background 0.18s ease, color 0.18s ease;
-}
-.begin:hover { background: var(--brass); color: var(--brown); }
-.begin span { display: inline-block; }
-.begin:focus-visible { outline: 1px solid var(--brass-2); outline-offset: 3px; }
+/* ---- Masthead (light, ruled — not a hero) ---- */
+.mast { border-bottom: 1px solid var(--line-2); background: var(--paper); position: sticky; top: 0; z-index: 40; }
+.mast-bar { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; padding: 17px 0; }
+.mark { display: flex; align-items: baseline; gap: 12px; text-decoration: none; color: var(--ink); }
+.mark .wordmark { font-family: var(--f-display); font-weight: 700; font-size: 21px; }
+.mark .estd { font-family: var(--f-ui); text-transform: uppercase; letter-spacing: 0.2em; font-size: 9.5px; color: var(--ink-faint); }
+.nav { display: flex; gap: 2px; flex-wrap: wrap; }
+.nav a { font-family: var(--f-ui); font-size: 12px; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink-soft); text-decoration: none; padding: 6px 12px; cursor: pointer; border-bottom: 2px solid transparent; transition: color .16s, border-color .16s; }
+.nav a:hover { color: var(--green); }
+.nav a[aria-current="page"] { color: var(--green); border-bottom-color: var(--green); }
+.nav a:focus-visible, .mark:focus-visible { outline: 1px solid var(--green); outline-offset: 3px; }
 
-/* ---- Printed-plate diagram (a figure in an old book) ---- */
-figure.frame { margin: 0; }
-.frame .plate {
-  position: relative; aspect-ratio: 5 / 4; display: grid; place-items: center;
-  background: var(--parchment);
-  border: 1px solid var(--ink);
-  box-shadow: 0 0 0 5px var(--parchment), 0 0 0 6px var(--ink);
-}
-.frame .plate svg { width: 88%; height: auto; }
-.frame figcaption {
-  font-family: var(--f-ui); font-size: 10.5px; letter-spacing: 0.1em;
-  text-transform: uppercase; color: var(--ink-faint);
-  text-align: center; padding: 20px 0 0;
-}
-.on-dark .frame figcaption { color: rgba(239, 230, 205, 0.7); }
-.frame figcaption b { color: var(--brass-deep); font-weight: 600; }
-.on-dark .frame figcaption b { color: var(--brass-2); }
+/* ---- Intro strip (quiet, not a hero) ---- */
+.intro { padding: 62px 0 34px; }
+.intro .thesis { font-size: clamp(28px, 3.8vw, 46px); max-width: 20ch; line-height: 1.08; }
+.intro .thesis em { color: var(--green); }
+.intro p { max-width: 52ch; margin-top: 18px; color: var(--ink-soft); font-size: 19px; }
 
-/* ---- Catalogue index ---- */
-.section-lead { max-width: 44ch; }
-.section-lead h2 { font-size: clamp(26px, 3.2vw, 35px); margin-top: 12px; }
-.section-lead p { color: var(--ink-soft); margin-top: 13px; }
+/* ---- Gallery controls ---- */
+.gallery-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; flex-wrap: wrap; padding: 22px 0 20px; border-top: 1px solid var(--line); }
+.gallery-head h2 { font-size: 24px; }
+.gallery-head .sub { font-family: var(--f-ui); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); margin-top: 5px; }
+.sort { display: flex; align-items: center; gap: 4px; font-family: var(--f-ui); font-size: 11.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-faint); }
+.sort button { font: inherit; letter-spacing: inherit; text-transform: inherit; background: none; border: 1px solid var(--line); color: var(--ink-soft); padding: 6px 11px; cursor: pointer; transition: all .15s; }
+.sort button[aria-pressed="true"] { background: var(--green); color: var(--cream); border-color: var(--green); }
+.sort button:focus-visible { outline: 1px solid var(--green); outline-offset: 2px; }
 
-.index { margin-top: 36px; border-top: 1px solid var(--line); }
-.index-row {
-  display: grid; grid-template-columns: auto 1fr auto; gap: 26px; align-items: baseline;
-  padding: 25px 4px; border-bottom: 1px solid var(--line);
-  text-decoration: none; color: inherit; cursor: pointer;
-  transition: background 0.2s ease, padding-left 0.2s ease;
-}
-.index-row:hover { background: var(--green-tint); padding-left: 12px; }
-.index-row:focus-visible { outline: 1px solid var(--brass); outline-offset: -2px; }
-.index-row .rn { font-family: var(--f-display); font-size: 25px; color: var(--green); font-weight: 700; min-width: 1.7em; }
-.index-row .body h3 { font-size: 23px; }
-.index-row .body p { margin-top: 5px; color: var(--ink-soft); max-width: 52ch; font-size: 17px; }
-.index-row .go { font-family: var(--f-ui); font-size: 11px; letter-spacing: 0.13em; text-transform: uppercase; color: var(--brass-deep); white-space: nowrap; align-self: center; }
-.index-row .go span { display: inline-block; transition: transform 0.18s ease; }
-.index-row:hover .go span { transform: translateX(4px); }
+/* ---- Gallery wall ---- */
+.wall { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; padding: 8px 0 40px; }
+.plate { display: flex; flex-direction: column; text-decoration: none; color: inherit; cursor: pointer; background: var(--card); border: 1px solid var(--line-2); transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease; }
+.plate:hover { transform: translateY(-4px); box-shadow: 0 14px 30px rgba(35, 28, 18, 0.14); border-color: var(--green); }
+.plate:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
+.plate .art { position: relative; padding: 18px 18px 10px; border-bottom: 1px solid var(--line); }
+.plate .art svg { width: 100%; height: auto; display: block; }
+.plate .art .idx { position: absolute; top: 12px; right: 14px; font-family: var(--f-ui); font-size: 10px; letter-spacing: 0.12em; color: var(--ink-faint); }
+.plate .lab { padding: 15px 18px 18px; display: flex; flex-direction: column; flex: 1; }
+.plate .name { font-family: var(--f-display); font-weight: 700; font-size: 22px; }
+.plate .orig { font-family: var(--f-ui); font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-faint); margin-top: 5px; line-height: 1.4; }
+.plate .pf { margin-top: auto; padding-top: 14px; display: flex; align-items: center; justify-content: space-between; }
+.plate .count { font-family: var(--f-ui); font-size: 11px; letter-spacing: 0.05em; color: var(--green); }
+.plate .go { font-family: var(--f-ui); font-size: 15px; color: var(--brass); transition: transform .16s; }
+.plate:hover .go { transform: translateX(4px); }
 
-/* ---- Statistics band (green) ---- */
-.statline { padding: 0; }
-.statline .inner {
-  display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 10px 28px;
-  padding: 24px 0; font-family: var(--f-ui); font-size: 12.5px; letter-spacing: 0.07em;
-  text-transform: uppercase; color: rgba(239, 230, 205, 0.74);
-}
-.statline b { color: var(--brass-2); font-weight: 600; }
-.statline .dot { color: rgba(239, 230, 205, 0.3); }
+/* ---- Detail view ---- */
+.detail-back { font-family: var(--f-ui); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--brass-deep); text-decoration: none; cursor: pointer; display: inline-block; margin-bottom: 26px; }
+.detail-back:hover { text-decoration: underline; }
+.detail-head { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 52px; align-items: center; }
+.detail-art { background: var(--card); border: 1px solid var(--line-2); padding: 26px; }
+.detail-art svg { width: 100%; height: auto; }
+.detail-art .cap { font-family: var(--f-ui); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint); text-align: center; margin-top: 16px; }
+.detail-art .cap b { color: var(--brass-deep); }
+.detail-title { font-size: clamp(38px, 5.5vw, 60px); }
+.detail-origin { font-family: var(--f-ui); text-transform: uppercase; letter-spacing: 0.13em; font-size: 12px; color: var(--brass-deep); margin-top: 12px; }
+.detail-desc { color: var(--ink-soft); font-size: 19px; margin-top: 18px; max-width: 48ch; }
 
-/* ---- Pull quote ---- */
-.pull { max-width: var(--read); margin: 0 auto; text-align: center; }
-.pull .q { font-family: var(--f-display); font-style: italic; font-weight: 600; font-size: clamp(21px, 2.6vw, 27px); line-height: 1.4; color: var(--ink); }
-.pull .by { margin-top: 18px; font-family: var(--f-ui); text-transform: uppercase; letter-spacing: 0.15em; font-size: 11px; color: var(--ink-faint); }
-
-/* ---- Template page ---- */
-.crumb { font-family: var(--f-ui); font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 22px; }
-.crumb a { color: var(--brass-deep); text-decoration: none; cursor: pointer; }
-.crumb a:hover { text-decoration: underline; }
-.page-title { font-size: clamp(36px, 5.5vw, 56px); }
-.origin { font-family: var(--f-ui); text-transform: uppercase; letter-spacing: 0.13em; font-size: 12px; color: var(--brass-deep); margin-top: 12px; }
-.lead-para { color: var(--ink-soft); max-width: 54ch; margin-top: 18px; font-size: 19px; }
-
-.tpl-head { display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 46px; align-items: start; }
-.tpl-head figure.frame { align-self: start; }
-
-/* strategic idea — flat green-tinted block, double top/bottom rule */
-.idea {
-  margin: 40px 0; padding: 30px 0; max-width: var(--read);
-  border-top: 2px solid var(--green); border-bottom: 1px solid var(--line);
-}
-.idea .eyebrow { margin-bottom: 12px; color: var(--green-deep); }
-.idea p { font-size: 20px; line-height: 1.55; color: var(--ink); }
+.idea { margin: 46px 0; padding: 32px 0; border-top: 2px solid var(--green); border-bottom: 1px solid var(--line); max-width: var(--read); }
+.idea .eyebrow { color: var(--green-deep); margin-bottom: 12px; }
+.idea p { font-size: 21px; line-height: 1.5; }
 .idea strong { font-weight: 700; }
 
-/* instances — plain catalogue table */
-.subhead { font-size: 22px; margin: 10px 0 3px; }
+.subhead { font-size: 22px; margin: 8px 0 3px; }
 .tbl-note { font-family: var(--f-ui); font-size: 12px; color: var(--ink-faint); margin: 0 0 14px; }
 .table-scroll { overflow-x: auto; }
-table.cat { width: 100%; min-width: 560px; border-collapse: collapse; font-size: 16px; }
-table.cat thead th {
-  font-family: var(--f-ui); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--brass-deep); font-weight: 600; text-align: right; padding: 0 14px 10px;
-  border-bottom: 2px solid var(--line); white-space: nowrap;
-}
+table.cat { width: 100%; min-width: 540px; border-collapse: collapse; font-size: 16px; }
+table.cat thead th { font-family: var(--f-ui); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brass-deep); font-weight: 600; text-align: right; padding: 0 14px 10px; border-bottom: 2px solid var(--line-2); white-space: nowrap; }
 table.cat thead th:first-child, table.cat tbody td:first-child { text-align: left; }
-table.cat tbody td { padding: 14px; text-align: right; border-bottom: 1px solid var(--line-soft); font-variant-numeric: tabular-nums; color: var(--ink); }
+table.cat tbody td { padding: 13px 14px; text-align: right; border-bottom: 1px solid var(--line); font-variant-numeric: tabular-nums; }
 table.cat tbody tr:hover td { background: var(--green-tint); }
 .course-cell { font-family: var(--f-display); font-weight: 600; }
-
 .fidelity { display: inline-flex; gap: 3px; justify-content: flex-end; }
-.fidelity .pip { width: 15px; height: 4px; background: var(--line); }
+.fidelity .pip { width: 15px; height: 4px; background: var(--line-2); }
 .fidelity .pip.on { background: var(--brass); }
-
-.chips { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 28px; }
+.chips { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 30px; }
 .chip-lbl { font-family: var(--f-ui); text-transform: uppercase; letter-spacing: 0.12em; font-size: 10.5px; color: var(--ink-faint); margin-right: 2px; }
-.chip { font-family: var(--f-ui); font-size: 12.5px; color: var(--ink); border: 1px solid var(--brass); padding: 5px 11px; }
-.chip-alt { border-color: var(--green); color: var(--green-deep); }
+.chip { font-family: var(--f-ui); font-size: 12.5px; border: 1px solid var(--brass); padding: 5px 11px; }
+.chip-alt { border-color: var(--green); color: var(--green-deep); cursor: pointer; }
+.chip-alt:hover { background: var(--green-tint); }
 
 /* ---- Notes ---- */
+.page-title { font-size: clamp(34px, 5vw, 52px); }
+.lead-para { color: var(--ink-soft); max-width: 54ch; margin-top: 16px; font-size: 19px; }
+.crumb { font-family: var(--f-ui); font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 20px; }
+.crumb a { color: var(--brass-deep); text-decoration: none; cursor: pointer; }
 .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(144px, 1fr)); gap: 10px; margin-top: 8px; }
 .swatch { border: 1px solid var(--line); }
-.swatch .chip-c { height: 60px; }
-.swatch .meta { padding: 8px 10px; background: var(--parchment); }
+.swatch .chip-c { height: 58px; }
+.swatch .meta { padding: 8px 10px; background: var(--card); }
 .swatch .nm { font-family: var(--f-ui); font-size: 12px; font-weight: 600; }
 .swatch .hex { font-family: ui-monospace, Menlo, monospace; font-size: 10.5px; color: var(--ink-faint); margin-top: 2px; }
-.spec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; margin-top: 28px; }
+.spec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 28px; }
 .spec { border: 1px solid var(--line); padding: 24px; }
 .spec h3 { font-size: 19px; margin-bottom: 14px; }
 .spec .row + .row { margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--line); }
 .spec .tag { font-family: var(--f-ui); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); }
-.ts-d { font-family: var(--f-display); font-weight: 700; font-size: 31px; line-height: 1.05; margin-top: 6px; }
+.ts-d { font-family: var(--f-display); font-weight: 700; font-size: 31px; margin-top: 6px; }
 .ts-b { font-family: var(--f-body); font-size: 19px; margin-top: 6px; }
 .ts-u { font-family: var(--f-ui); text-transform: uppercase; letter-spacing: 0.2em; font-size: 12px; font-weight: 600; margin-top: 8px; }
 .notes { color: var(--ink-soft); padding-left: 18px; margin: 0; }
-.notes li { margin-top: 9px; }
-.notes b { color: var(--ink); }
+.notes li { margin-top: 9px; } .notes b { color: var(--ink); }
 
-/* ---- Footer ---- */
-.footer-inner { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 38px; padding: 54px 0 24px; }
-.footer-inner h4 { font-family: var(--f-ui); font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--brass-2); margin-bottom: 13px; }
-.footer-inner a { display: block; color: rgba(239, 230, 205, 0.68); text-decoration: none; font-size: 15px; padding: 5px 0; cursor: pointer; }
-.footer-inner a:hover { color: var(--brass-2); }
-.footer-brand .wordmark { font-family: var(--f-display); font-weight: 700; font-size: 22px; }
-.footer-brand p { color: rgba(239, 230, 205, 0.55); margin-top: 12px; max-width: 42ch; font-size: 15px; }
-.footer-legal { padding: 16px 0 40px; font-family: var(--f-ui); font-size: 11px; letter-spacing: 0.03em; color: rgba(239, 230, 205, 0.42); }
+section { padding: 30px 0 70px; }
 
-/* ---- Motion (quiet) ---- */
-.js .reveal { opacity: 0; transform: translateY(14px); transition: opacity 0.8s ease, transform 0.8s ease; }
+/* ---- Footer (deep green) ---- */
+.foot { background: var(--green-deep); color: var(--cream); margin-top: 40px; }
+.foot-inner { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 38px; padding: 54px 0 24px; }
+.foot-inner h4 { font-family: var(--f-ui); font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--brass); margin-bottom: 13px; }
+.foot-inner a { display: block; color: rgba(239, 230, 205, 0.7); text-decoration: none; font-size: 15px; padding: 5px 0; cursor: pointer; }
+.foot-inner a:hover { color: var(--brass); }
+.foot-brand .wordmark { font-family: var(--f-display); font-weight: 700; font-size: 22px; }
+.foot-brand p { color: rgba(239, 230, 205, 0.58); margin-top: 12px; max-width: 42ch; font-size: 15px; }
+.foot-legal { border-top: 1px solid var(--line-cream); padding: 18px 0 40px; font-family: var(--f-ui); font-size: 11px; letter-spacing: 0.03em; color: rgba(239, 230, 205, 0.45); }
+
+.js .reveal { opacity: 0; transform: translateY(14px); transition: opacity .7s ease, transform .7s ease; }
 .js .reveal.in { opacity: 1; transform: none; }
-::view-transition-old(root), ::view-transition-new(root) { animation-duration: 0.32s; }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: .3s; }
 
-/* ---- Responsive ---- */
+@media (max-width: 1000px) { .wall { grid-template-columns: repeat(3, 1fr); } }
 @media (max-width: 860px) {
-  .hero-inner { grid-template-columns: 1fr; gap: 42px; padding: 58px 0; }
-  .hero figure.frame { max-width: 380px; }
-  .tpl-head { grid-template-columns: 1fr; gap: 34px; }
-  .tpl-head figure.frame { max-width: 380px; }
+  .wall { grid-template-columns: repeat(2, 1fr); }
+  .detail-head { grid-template-columns: 1fr; gap: 30px; }
   .spec-grid { grid-template-columns: 1fr; }
-  .footer-inner { grid-template-columns: 1fr 1fr; gap: 26px; }
+  .foot-inner { grid-template-columns: 1fr 1fr; gap: 26px; }
 }
-@media (max-width: 560px) {
-  body { font-size: 18px; }
-  .wrap { padding: 0 22px; }
-  .index-row { grid-template-columns: auto 1fr; }
-  .index-row .go { display: none; }
+@media (max-width: 520px) {
+  body { font-size: 18px; } .wrap { padding: 0 22px; }
+  .wall { grid-template-columns: 1fr 1fr; gap: 14px; }
+  .plate .name { font-size: 19px; }
   .nav .hide-sm { display: none; }
-  .footer-inner { grid-template-columns: 1fr; }
+  .foot-inner { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
-  .js .reveal { opacity: 1 !important; transform: none !important; }
-}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; } .js .reveal { opacity: 1 !important; transform: none !important; } }
 </style>
 
 <script>document.documentElement.classList.add("js");</script>
+<a href="#main" style="position:absolute;left:-999px;top:8px;background:var(--green);color:#efe6cd;padding:9px 15px;z-index:100" onfocus="this.style.left='12px'" onblur="this.style.left='-999px'">Skip to content</a>
 
-<a href="#main" style="position:absolute;left:-999px;top:8px;background:var(--brass);color:#2a1f14;padding:9px 15px;z-index:100" onfocus="this.style.left='12px'" onblur="this.style.left='-999px'">Skip to content</a>
-
-<!-- ===================== HEADER ===================== -->
-<header class="site-header">
-  <div class="brownbg on-dark">
-    <div class="wrap header-bar">
-      <a class="mark" href="#" data-view="home" aria-label="The Strategic Line — home">
-        <span class="wordmark">The Strategic Line</span>
-        <span class="estd">Notes on architecture</span>
-      </a>
-      <nav class="nav" aria-label="Primary">
-        <a data-view="template" aria-current="false">Templates</a>
-        <a data-view="home" data-anchor="index" class="hide-sm">Decisions</a>
-        <a data-view="home" data-anchor="index" class="hide-sm">Atlas</a>
-        <a data-view="notes" class="hide-sm">Notes</a>
-      </nav>
-    </div>
-    <hr class="rule-cream" />
+<header class="mast">
+  <div class="wrap mast-bar">
+    <a class="mark" href="#" data-view="home" aria-label="The Strategic Line — home">
+      <span class="wordmark">The Strategic Line</span>
+      <span class="estd">Golf course architecture</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a data-view="home" aria-current="page">Templates</a>
+      <a data-view="home" class="hide-sm">Decisions</a>
+      <a data-view="home" class="hide-sm">Atlas</a>
+      <a data-view="notes" class="hide-sm">Notes</a>
+    </nav>
   </div>
 </header>
 
 <main id="main">
 
-<!-- ===================== HOME ===================== -->
+<!-- ===== HOME: the gallery wall ===== -->
 <div class="view" data-view-panel="home">
-
-  <section class="hero brownbg on-dark">
-    <div class="wrap hero-inner">
-      <div>
-        <p class="eyebrow">Golf course architecture · a study</p>
-        <h1>Every great hole is a<br /><em>decision</em> problem.</h1>
-        <p class="lede">
-          Strategic design does not punish the golfer. It sets a well-formed
-          choice between risk and reward, and lets the ground reward whoever
-          reads it best. These are working notes on that idea — the template
-          holes it left us, and the decisions they still pose.
-        </p>
-        <a class="begin" data-view="template">Begin with the Redan</a>
-      </div>
-      <figure class="frame">
-        <div class="plate">
-          <svg viewBox="0 0 220 150" role="img" aria-label="Schematic of the Redan template hole">
-            <path d="M104 40 L166 54 L150 88 L92 72 Z" fill="#33503b" fill-opacity="0.16" stroke="#33503b" stroke-width="1.5"/>
-            <ellipse cx="100" cy="86" rx="15" ry="7" fill="none" stroke="#8a7856" stroke-width="1"/>
-            <path d="M89 83 L111 89 M91 79 L109 93 M93 90 L107 81" stroke="#b8a578" stroke-width="0.7"/>
-            <circle cx="44" cy="128" r="2.8" fill="#2a1f14"/>
-            <path d="M44 128 Q126 120 166 66 T126 58" fill="none" stroke="#a9823f" stroke-width="1.6" stroke-dasharray="4 3" stroke-linecap="round"/>
-            <circle cx="126" cy="58" r="2.6" fill="#a9823f"/>
-          </svg>
-        </div>
-        <figcaption><b>Fig. I</b> — The Redan · North Berwick, 15th</figcaption>
-      </figure>
-    </div>
-  </section>
-
-  <section id="index">
+  <section style="padding-bottom:0">
     <div class="wrap">
-      <div class="section-lead reveal">
-        <p class="eyebrow">Contents</p>
-        <h2>Read three ways.</h2>
-        <p>One graph of architects, courses and holes — taken as a
-          classification, as a set of decisions, and as a map.</p>
+      <div class="intro">
+        <p class="eyebrow" style="margin-bottom:16px">Golf course architecture · a study</p>
+        <h1 class="thesis">Every great hole is a <em>decision</em>.</h1>
+        <p>The strategic templates of the Golden Age, gathered as a set of
+          plates. Each is a portable argument about risk and reward — pick one
+          off the wall and see the choice it poses.</p>
       </div>
-      <div class="index reveal">
-        <a class="index-row" data-view="template">
-          <span class="rn">I</span>
-          <span class="body">
-            <h3>Templates</h3>
-            <p>The Golden-Age holes gathered by type — Redan, Cape, Biarritz —
-              each a portable argument about risk and reward.</p>
-          </span>
-          <span class="go">Enter the Redan <span aria-hidden="true">→</span></span>
-        </a>
-        <a class="index-row" data-view="template">
-          <span class="rn">II</span>
-          <span class="body">
-            <h3>Decisions</h3>
-            <p>A few holes taken apart shot by shot: the fork each one sets,
-              with an honest price written on either branch.</p>
-          </span>
-          <span class="go">See a hole <span aria-hidden="true">→</span></span>
-        </a>
-        <a class="index-row" data-view="template">
-          <span class="rn">III</span>
-          <span class="body">
-            <h3>Atlas</h3>
-            <p>The architects and courses of 1900–1937, and the minimalist
-              revival that returned to them, placed on the ground they worked.</p>
-          </span>
-          <span class="go">Walk the map <span aria-hidden="true">→</span></span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <section class="statline greenbg">
-    <div class="wrap inner">
-      <span><b>Eight</b> templates catalogued</span>
-      <span class="dot">◆</span>
-      <span>The Golden Age, <b>1900–1937</b></span>
-      <span class="dot">◆</span>
-      <span><b>Four</b> decisions, in full</span>
-      <span class="dot">◆</span>
-      <span>No fabricated numbers</span>
-    </div>
-  </section>
-
-  <section>
-    <div class="wrap" style="max-width:760px">
-      <div class="orn" style="margin-bottom:34px"><i></i></div>
-      <blockquote class="pull reveal">
-        <p class="q">“The ideal hole should provide an infinite variety of shots
-          according to the varying capabilities of the players.”</p>
-        <p class="by">— Alister MacKenzie, on strategic design</p>
-      </blockquote>
-      <div class="orn" style="margin-top:34px"><i></i></div>
-    </div>
-  </section>
-
-</div>
-
-<!-- ===================== TEMPLATE: REDAN ===================== -->
-<div class="view" data-view-panel="template" hidden>
-  <section>
-    <div class="wrap">
-      <p class="crumb"><a data-view="home">Templates</a> &nbsp;/&nbsp; Redan</p>
-      <div class="tpl-head">
+      <div class="gallery-head">
         <div>
-          <p class="eyebrow">Template</p>
-          <h1 class="page-title">Redan</h1>
-          <p class="origin">North Berwick (West Links), 15th — Scotland</p>
-          <p class="lead-para">The most-copied hole in golf: a green set on a
-            diagonal shelf, tilting away from the player front-right to
-            back-left, guarded short-left by a deep bunker. It punishes nothing
-            and tempts everything — the shot that looks like a bail-out is the
-            one the ground rewards.</p>
+          <h2>The template holes</h2>
+          <div class="sub" id="count-sub">Eight archetypes</div>
         </div>
-        <figure class="frame">
-          <div class="plate">
-            <svg viewBox="0 0 220 150" role="img" aria-label="Schematic of the Redan">
-              <path d="M104 40 L166 54 L150 88 L92 72 Z" fill="#33503b" fill-opacity="0.16" stroke="#33503b" stroke-width="1.5"/>
-              <ellipse cx="100" cy="86" rx="15" ry="7" fill="none" stroke="#8a7856" stroke-width="1"/>
-              <path d="M89 83 L111 89 M91 79 L109 93 M93 90 L107 81" stroke="#b8a578" stroke-width="0.7"/>
-              <circle cx="44" cy="128" r="2.8" fill="#2a1f14"/>
-              <path d="M44 128 Q126 120 166 66 T126 58" fill="none" stroke="#a9823f" stroke-width="1.6" stroke-dasharray="4 3" stroke-linecap="round"/>
-              <circle cx="126" cy="58" r="2.6" fill="#a9823f"/>
-            </svg>
-          </div>
-          <figcaption><b>Fig. I</b> — Gold marks the intended line</figcaption>
-        </figure>
+        <div class="sort" role="group" aria-label="Sort the plates">
+          <span>Sort</span>
+          <button type="button" data-sort="az" aria-pressed="true">A–Z</button>
+          <button type="button" data-sort="instances" aria-pressed="false">Most instances</button>
+        </div>
       </div>
-
-      <div class="idea reveal">
-        <p class="eyebrow">The strategic idea</p>
-        <p>A Redan asks one question: <strong>attack the flag through the air,
-          or use the ground?</strong> The direct shot must be flown the full
-          distance and held on a surface running away from it — low percentage.
-          Land it short and right, seemingly bailing out, and the slope feeds
-          the ball toward the hidden flag. The Redan rewards the golfer who aims
-          <em>away</em> from the target and trusts the contour to finish.</p>
-      </div>
-
-      <h3 class="subhead">Instances</h3>
-      <p class="tbl-note">Where the template lives, and how faithful each version is to the archetype.</p>
-      <div class="table-scroll reveal">
-        <table class="cat">
-          <thead>
-            <tr>
-              <th scope="col">Course</th>
-              <th scope="col">Hole</th>
-              <th scope="col">Architect</th>
-              <th scope="col">Fidelity</th>
-            </tr>
-          </thead>
-          <tbody id="inst-body"></tbody>
-        </table>
-      </div>
-
-      <div class="chips">
-        <span class="chip-lbl">Architects who used it</span>
-        <span class="chip">C.B. Macdonald</span>
-        <span class="chip">Seth Raynor</span>
-        <span class="chip">Alister MacKenzie</span>
-        <span class="chip chip-alt">Related · Biarritz</span>
-        <span class="chip chip-alt">Related · Cape</span>
-      </div>
+      <div class="wall reveal" id="wall"></div>
     </div>
   </section>
 </div>
 
-<!-- ===================== NOTES ===================== -->
+<!-- ===== DETAIL (populated) ===== -->
+<div class="view" data-view-panel="detail" hidden>
+  <section>
+    <div class="wrap" id="detail"></div>
+  </section>
+</div>
+
+<!-- ===== NOTES ===== -->
 <div class="view" data-view-panel="notes" hidden>
   <section>
     <div class="wrap">
       <p class="crumb"><a data-view="home">The Strategic Line</a> &nbsp;/&nbsp; Notes</p>
       <p class="eyebrow">The design language</p>
-      <h1 class="page-title">Paper, walnut &amp; green</h1>
-      <p class="lead-para">A simple, vintage register — an old golf book. Aged
-        paper for reading, walnut brown for the chrome, forest green as the
-        second tone, and a single flat ochre brass. Matte and ruled; nothing
-        glossy. A deliberately single, aged world.</p>
-
+      <h1 class="page-title">A wall of plates</h1>
+      <p class="lead-para">The layout is a gallery: the hole diagrams are the
+        subject, shown as a wall of plates you browse and sort, each opening to
+        the full hole. Light aged paper, forest green as the lead, brass as the
+        quiet second. Classic type, little chrome.</p>
       <h3 class="subhead" style="margin-top:32px">Palette</h3>
       <div class="swatches" id="swatches"></div>
-
       <div class="spec-grid">
         <div class="spec">
           <h3>Typography</h3>
-          <div class="row">
-            <div class="tag">Display · Playfair Display 700</div>
-            <div class="ts-d">The strategic line</div>
-          </div>
-          <div class="row">
-            <div class="tag">Body · EB Garamond 400 / italic</div>
-            <div class="ts-b">A warm oldstyle serif for the long paragraphs —
-              <em>bookish, unhurried, readable.</em></div>
-          </div>
-          <div class="row">
-            <div class="tag">Utility · system sans, letterspaced</div>
-            <div class="ts-u">Template · Origin · Fidelity</div>
-          </div>
+          <div class="row"><div class="tag">Display · Playfair Display 700</div><div class="ts-d">The strategic line</div></div>
+          <div class="row"><div class="tag">Body · EB Garamond 400 / italic</div><div class="ts-b">A warm oldstyle serif — <em>bookish, unhurried.</em></div></div>
+          <div class="row"><div class="tag">Utility · system sans, letterspaced</div><div class="ts-u">Template · Origin · Fidelity</div></div>
         </div>
         <div class="spec">
-          <h3>The vintage rules</h3>
+          <h3>The idea</h3>
           <ul class="notes">
-            <li><b>Two woods, one page.</b> Walnut brown for the chrome, forest
-              green for the second tone — both on aged paper.</li>
-            <li><b>Flat, not glossy.</b> No sheen or drop shadows; surfaces are
-              matte, edges are square.</li>
-            <li><b>Ruled, like a book.</b> Double rules frame the plates; single
-              rules divide the catalogue; a small fleuron marks a pause.</li>
-            <li><b>One accent.</b> Flat ochre brass — rules, numerals, the line
-              of play.</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="spec-grid">
-        <div class="spec">
-          <h3>Diagrams &amp; data</h3>
-          <ul class="notes">
-            <li>Hole schematics as printed plates — a double-ruled frame, a
-              <b>Fig.</b> caption, a gold dashed line for the intended play.</li>
-            <li>Tables as plain catalogues: a brass small-caps header over
-              hairline rows, figures in tabular numerals.</li>
-            <li>Fidelity as flat brass pips — analytical, but quiet.</li>
-          </ul>
-        </div>
-        <div class="spec">
-          <h3>Photography direction</h3>
-          <ul class="notes">
-            <li>Low, warm, lamp-lit light — dusk and interiors. Push toward
-              green-gold; let shadows go deep.</li>
-            <li>Archival images as framed prints: a thin double mat, a little
-              grain, an engraved caption.</li>
-            <li>Course photography in rich, shallow focus — the ground and its
-              contours, never the sky.</li>
+            <li><b>Diagrams lead.</b> The plates are the page; you browse the
+              holes, not a landing page.</li>
+            <li><b>Each plate is drawn.</b> Every template has its own schematic
+              — the green, the bunkers, and a gold line of play.</li>
+            <li><b>Green leads, brass follows.</b> Forest green for structure and
+              action; flat ochre brass for the accent.</li>
+            <li><b>Light and calm.</b> Paper ground, little texture, a deep-green
+              footer to anchor it.</li>
           </ul>
         </div>
       </div>
@@ -559,86 +287,149 @@ table.cat tbody tr:hover td { background: var(--green-tint); }
 
 </main>
 
-<!-- ===================== FOOTER ===================== -->
-<footer class="brownbg on-dark">
-  <hr class="rule-cream" />
-  <div class="wrap footer-inner">
-    <div class="footer-brand">
+<footer class="foot">
+  <div class="wrap foot-inner">
+    <div class="foot-brand">
       <div class="wordmark">The Strategic Line</div>
       <p>Working notes on golf course architecture — the template holes of the
         Golden Age and the decisions they pose.</p>
     </div>
-    <div>
-      <h4>The study</h4>
-      <a data-view="template">Templates</a>
-      <a data-view="home" data-anchor="index">Decisions</a>
-      <a data-view="home" data-anchor="index">Atlas</a>
-    </div>
-    <div>
-      <h4>About</h4>
-      <a data-view="notes">Design notes</a>
-      <a data-view="home">The thesis</a>
-      <a data-view="home">Sources &amp; method</a>
-    </div>
+    <div><h4>The study</h4>
+      <a data-view="home">Templates</a><a data-view="home">Decisions</a><a data-view="home">Atlas</a></div>
+    <div><h4>About</h4>
+      <a data-view="notes">Design notes</a><a data-view="home">The thesis</a><a data-view="home">Sources &amp; method</a></div>
   </div>
-  <div class="wrap footer-legal">
-    A concept study · aesthetic after the old clubhouse reading rooms · illustrative content.
-  </div>
+  <div class="wrap foot-legal">A concept study · illustrative content · aesthetic after the old clubhouse reading rooms.</div>
 </footer>
 
 <script>
 (function () {
   "use strict";
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var panels = document.querySelectorAll("[data-view-panel]");
-  var navLinks = document.querySelectorAll(".nav a[data-view]");
-  function swap(view, anchor) {
-    panels.forEach(function (p) { p.hidden = p.getAttribute("data-view-panel") !== view; });
-    navLinks.forEach(function (a) { a.setAttribute("aria-current", a.getAttribute("data-view") === view ? "page" : "false"); });
-    if (anchor) { var el = document.getElementById(anchor); if (el) { el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" }); return; } }
-    window.scrollTo({ top: 0, behavior: "auto" });
+
+  /* ---- Schematics: each template drawn on a light plate ---- */
+  var G = "#2f5140", GF = "rgba(47,81,64,0.16)", S = "#a08a5f", B = "#a9823f", K = "#23201a";
+  var SHAPES = {
+    redan: "<path d='M96 34 L150 46 L138 74 L84 60 Z' fill='"+GF+"' stroke='"+G+"' stroke-width='1.4'/><ellipse cx='92' cy='70' rx='13' ry='6' fill='none' stroke='"+S+"'/><circle cx='40' cy='112' r='2.6' fill='"+K+"'/><path d='M40 112 Q120 104 150 60 T112 50' fill='none' stroke='"+B+"' stroke-width='1.5' stroke-dasharray='4 3' stroke-linecap='round'/><circle cx='112' cy='50' r='2.4' fill='"+B+"'/>",
+    cape: "<path d='M18 98 L120 40 L166 40 L166 120 L18 120 Z' fill='rgba(160,138,95,0.16)'/><path d='M118 34 L152 34 L152 58 L108 58 Z' fill='"+GF+"' stroke='"+G+"' stroke-width='1.3'/><circle cx='34' cy='122' r='2.6' fill='"+K+"'/><path d='M34 122 L130 46' stroke='"+B+"' stroke-width='1.8'/><path d='M34 122 Q58 92 124 54' fill='none' stroke='"+K+"' stroke-width='1' stroke-dasharray='3 3' opacity='0.45'/><circle cx='130' cy='46' r='2.4' fill='"+B+"'/>",
+    alps: "<path d='M52 80 L82 42 L112 72 L142 40 L166 76' fill='none' stroke='"+K+"' stroke-width='1.4'/><path d='M100 28 L152 28 L152 42 L100 42 Z' fill='"+GF+"' stroke='"+G+"' stroke-width='1.3'/><ellipse cx='108' cy='84' rx='17' ry='5.5' fill='none' stroke='"+S+"'/><circle cx='38' cy='114' r='2.6' fill='"+K+"'/><path d='M38 114 Q92 96 112 62' fill='none' stroke='"+B+"' stroke-width='1.5' stroke-dasharray='4 3'/><circle cx='124' cy='40' r='2.4' fill='"+B+"'/>",
+    eden: "<path d='M76 40 L144 40 L152 68 L68 68 Z' fill='"+GF+"' stroke='"+G+"' stroke-width='1.4'/><ellipse cx='134' cy='76' rx='10' ry='5' fill='none' stroke='"+S+"'/><ellipse cx='82' cy='78' rx='11' ry='5.5' fill='none' stroke='"+S+"'/><circle cx='110' cy='118' r='2.6' fill='"+K+"'/><path d='M110 118 L110 68' stroke='"+B+"' stroke-width='1.5' stroke-dasharray='4 3'/><circle cx='110' cy='52' r='2.4' fill='"+B+"'/>",
+    road: "<line x1='66' y1='28' x2='160' y2='44' stroke='"+K+"' stroke-width='1.5'/><path d='M72 44 L152 56 L148 70 L68 56 Z' fill='"+GF+"' stroke='"+G+"' stroke-width='1.4'/><ellipse cx='92' cy='64' rx='8' ry='4' fill='none' stroke='"+S+"'/><circle cx='34' cy='118' r='2.6' fill='"+K+"'/><path d='M34 118 L120 92' stroke='"+B+"' stroke-width='1.5' stroke-dasharray='4 3'/><path d='M120 92 L130 62' stroke='"+B+"' stroke-width='1.5' stroke-dasharray='4 3'/><circle cx='130' cy='60' r='2.4' fill='"+B+"'/>",
+    short: "<circle cx='110' cy='54' r='29' fill='"+GF+"' stroke='"+G+"' stroke-width='1.3'/><path d='M93 47 Q110 34 127 47 Q131 58 120 63' fill='none' stroke='"+G+"' opacity='0.7'/><ellipse cx='110' cy='20' rx='10' ry='4' fill='none' stroke='"+S+"'/><ellipse cx='147' cy='54' rx='4' ry='10' fill='none' stroke='"+S+"'/><ellipse cx='73' cy='54' rx='4' ry='10' fill='none' stroke='"+S+"'/><circle cx='110' cy='118' r='2.6' fill='"+K+"'/><path d='M110 118 L110 64' stroke='"+B+"' stroke-width='1.5' stroke-dasharray='4 3'/><circle cx='116' cy='52' r='2.4' fill='"+B+"'/>",
+    biarritz: "<path d='M76 32 L144 32 L144 76 L76 76 Z' fill='"+GF+"' stroke='"+G+"' stroke-width='1.3'/><rect x='76' y='50' width='68' height='9' fill='rgba(160,138,95,0.3)'/><ellipse cx='68' cy='54' rx='4' ry='12' fill='none' stroke='"+S+"'/><ellipse cx='152' cy='54' rx='4' ry='12' fill='none' stroke='"+S+"'/><circle cx='110' cy='120' r='2.6' fill='"+K+"'/><path d='M110 120 L110 38' stroke='"+B+"' stroke-width='1.5' stroke-dasharray='4 3'/><circle cx='110' cy='38' r='2.4' fill='"+B+"'/>",
+    punchbowl: "<ellipse cx='110' cy='54' rx='42' ry='27' fill='rgba(160,138,95,0.14)' stroke='"+S+"'/><ellipse cx='110' cy='54' rx='27' ry='16' fill='"+GF+"' stroke='"+G+"' stroke-width='1.3'/><ellipse cx='110' cy='54' rx='13' ry='7' fill='none' stroke='"+G+"' opacity='0.5'/><circle cx='110' cy='122' r='2.6' fill='"+K+"'/><path d='M110 122 Q110 92 110 62' fill='none' stroke='"+B+"' stroke-width='1.5' stroke-dasharray='4 3'/><circle cx='110' cy='54' r='2.4' fill='"+B+"'/>"
+  };
+  function svg(slug) { return "<svg viewBox='0 0 200 140' role='img' aria-label='Schematic of the " + slug + " template'>" + (SHAPES[slug] || "") + "</svg>"; }
+
+  /* ---- The eight templates ---- */
+  var T = [
+    { slug: "redan", name: "Redan", origin: "North Berwick (West Links), 15th — Scotland",
+      idea: "Attack the flag through the air, or use the ground? The green runs away behind a deep front-left bunker; land short-right and the slope feeds the ball to a hidden flag. The shot that looks like a bail-out is the right one.",
+      desc: "The most-copied hole in golf, and the clearest proof of the strategic thesis — it punishes nothing and tempts everything.",
+      inst: [["North Berwick (West Links)","15th","Old Tom Morris (natural)",5],["National Golf Links of America","4th","C.B. Macdonald",5],["Yale Golf Course","4th","Seth Raynor",4],["Chicago Golf Club","7th","Seth Raynor",4]] },
+    { slug: "cape", name: "Cape", origin: "National Golf Links of America, 14th — concept by C.B. Macdonald",
+      idea: "Bite off as much of the diagonal hazard as you dare. Every yard of carry buys a shorter, better-angled next shot; decline it and the hole lengthens from a poorer angle. You set your own risk.",
+      desc: "The template that is nothing but a decision — a diagonal drawn across your options with an honest price on every yard of courage.",
+      inst: [["National Golf Links of America","14th","C.B. Macdonald",5],["Mid Ocean Club","5th","C.B. Macdonald",5]] },
+    { slug: "alps", name: "Alps", origin: "Prestwick Golf Club, 17th — Scotland",
+      idea: "A blind approach over a tall dune to a hidden green, with a deep cross-bunker guarding the front. Courage under uncertainty — take on the full carry from the correct line and trust it.",
+      desc: "The archetype of the blind carry: it insists that honestly-presented uncertainty is a legitimate, thrilling kind of strategy.",
+      inst: [["Prestwick Golf Club","17th","Old Tom Morris",5],["National Golf Links of America","3rd","C.B. Macdonald",4]] },
+    { slug: "eden", name: "Eden", origin: "St Andrews (Old Course), 11th — Scotland",
+      idea: "A short one-shotter to a green tilted hard back-to-front between two fierce bunkers — the Strath and the Hill. There is almost no safe middle; choose which miss you can live with.",
+      desc: "The model for the demanding short one-shotter, where every pin redefines the negotiation and the safe play barely exists.",
+      inst: [["St Andrews (Old Course)","11th","natural",5],["National Golf Links of America","13th","C.B. Macdonald",4]] },
+    { slug: "road", name: "Road", origin: "St Andrews (Old Course), 17th — Scotland",
+      idea: "A linked gamble: how much of the corner you carry off the tee buys the angle into a thin green pinched between the Road bunker in front and the wall behind. The template of consequence.",
+      desc: "Widely held the hardest par 4 in championship golf — the hole that made playing to the fat of the green a strategy worth a bogey.",
+      inst: [["St Andrews (Old Course)","17th","natural",5]] },
+    { slug: "short", name: "Short", origin: "National Golf Links of America, 6th — Macdonald/Raynor",
+      idea: "A wedge to a big green ringed by deep bunkers and split by a bold internal ridge. The shot is trivial; the target defends itself. Pure precision versus position, on a hole you could throw a ball across.",
+      desc: "The antidote to the idea that hard golf must be long golf — all touch, nerve, and reading the internal contour.",
+      inst: [["National Golf Links of America","6th","C.B. Macdonald",5]] },
+    { slug: "biarritz", name: "Biarritz", origin: "Biarritz Golf Club, France — original hole now lost",
+      idea: "A long one-shotter to a big green split by a deep swale. Fly the full carry to the back plateau, or land short and run the ball through the trough. Raw commitment at distance.",
+      desc: "The template that outlived its origin — proof that a hole is fundamentally an idea, portable and survivable apart from its ground.",
+      inst: [["Yale Golf Course","9th","Seth Raynor",5],["Chicago Golf Club","7th","Seth Raynor",4]] },
+    { slug: "punchbowl", name: "Punchbowl", origin: "Links origin; a Macdonald/Raynor template",
+      idea: "A green cradled in a hollow whose slopes gather the ball toward the middle. The friendliest template — the decision is trusting a blind, generous target and controlling where within the bowl you finish.",
+      desc: "Proof that strategic design includes generosity, not only fear — sometimes the interesting choice is how to accept a gift.",
+      inst: [["National Golf Links of America","16th","C.B. Macdonald",4]] }
+  ];
+  var BY = {}; T.forEach(function (t) { BY[t.slug] = t; });
+
+  function pips(n) { var s = ""; for (var i = 0; i < 5; i++) s += "<i class='pip" + (i < n ? " on" : "") + "'></i>"; return "<span class='fidelity' title='" + n + " of 5'>" + s + "</span>"; }
+
+  /* ---- Render the gallery wall ---- */
+  var wall = document.getElementById("wall");
+  function renderWall(order) {
+    var list = T.slice();
+    if (order === "instances") list.sort(function (a, b) { return b.inst.length - a.inst.length || a.name.localeCompare(b.name); });
+    else list.sort(function (a, b) { return a.name.localeCompare(b.name); });
+    wall.innerHTML = list.map(function (t, i) {
+      return "<a class='plate' data-slug='" + t.slug + "'>" +
+        "<div class='art'><span class='idx'>" + String(i + 1).padStart(2, "0") + "</span>" + svg(t.slug) + "</div>" +
+        "<div class='lab'><div class='name'>" + t.name + "</div>" +
+        "<div class='orig'>" + t.origin.split(" — ")[0] + "</div>" +
+        "<div class='pf'><span class='count'>" + t.inst.length + " instance" + (t.inst.length > 1 ? "s" : "") + "</span><span class='go' aria-hidden='true'>→</span></div>" +
+        "</div></a>";
+    }).join("");
   }
-  function show(view, anchor) {
-    if (document.startViewTransition && !reduce) { document.startViewTransition(function () { swap(view, anchor); }); }
-    else { swap(view, anchor); }
-  }
-  document.addEventListener("click", function (e) {
-    var t = e.target.closest("[data-view]"); if (!t) return; e.preventDefault();
-    show(t.getAttribute("data-view"), t.getAttribute("data-anchor"));
+  renderWall("az");
+  document.querySelectorAll(".sort button").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      document.querySelectorAll(".sort button").forEach(function (b) { b.setAttribute("aria-pressed", "false"); });
+      btn.setAttribute("aria-pressed", "true");
+      renderWall(btn.getAttribute("data-sort"));
+    });
   });
 
-  var INST = [
-    ["North Berwick (West Links)", "15th", "Old Tom Morris (natural)", 5],
-    ["National Golf Links of America", "4th", "C.B. Macdonald", 5],
-    ["Yale Golf Course", "4th", "Seth Raynor", 4],
-    ["Chicago Golf Club", "7th", "Seth Raynor", 4]
-  ];
-  function pips(n) { var s = ""; for (var i = 0; i < 5; i++) s += "<i class='pip" + (i < n ? " on" : "") + "'></i>"; return "<span class='fidelity' title='" + n + " of 5'>" + s + "</span>"; }
-  var ib = document.getElementById("inst-body");
-  if (ib) ib.innerHTML = INST.map(function (r) {
-    return "<tr><td class='course-cell'>" + r[0] + "</td><td>" + r[1] + "</td><td style='text-align:left;color:var(--ink-soft)'>" + r[2] + "</td><td>" + pips(r[3]) + "</td></tr>";
-  }).join("");
-
-  var SW = [
-    ["Aged paper", "#ebe1c6", "--paper"],
-    ["Walnut brown", "#3a2817", "--brown"],
-    ["Forest green", "#33503b", "--green"],
-    ["Ochre brass", "#a9823f", "--brass"],
-    ["Brass light", "#c39c56", "--brass-2"],
-    ["Ink", "#2a1f14", "--ink"],
-    ["Parchment", "#f3ead1", "--parchment"],
-    ["Oxblood", "#7a322c", "--oxblood"]
-  ];
-  var sw = document.getElementById("swatches");
-  if (sw) sw.innerHTML = SW.map(function (s) {
-    return "<div class='swatch'><div class='chip-c' style='background:" + s[1] + "'></div><div class='meta'><div class='nm'>" + s[0] + "</div><div class='hex'>" + s[1] + " · " + s[2] + "</div></div></div>";
-  }).join("");
-
-  if (reduce || !("IntersectionObserver" in window)) {
-    document.querySelectorAll(".reveal").forEach(function (el) { el.classList.add("in"); });
-  } else {
-    var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }); }, { rootMargin: "0px 0px -8% 0px", threshold: 0.1 });
-    document.querySelectorAll(".reveal").forEach(function (el) { io.observe(el); });
+  /* ---- Render a detail ---- */
+  function renderDetail(slug) {
+    var t = BY[slug]; if (!t) return;
+    var rows = t.inst.map(function (r) {
+      return "<tr><td class='course-cell'>" + r[0] + "</td><td>" + r[1] + "</td><td style='text-align:left;color:var(--ink-soft)'>" + r[2] + "</td><td>" + pips(r[3]) + "</td></tr>";
+    }).join("");
+    var related = T.filter(function (x) { return x.slug !== slug; }).slice(0, 3).map(function (x) {
+      return "<span class='chip chip-alt' data-slug='" + x.slug + "'>" + x.name + "</span>";
+    }).join("");
+    document.getElementById("detail").innerHTML =
+      "<a class='detail-back' data-view='home'>← All template holes</a>" +
+      "<div class='detail-head'>" +
+        "<div class='detail-art'>" + svg(slug) + "<div class='cap'><b>Fig.</b> — " + t.name + " · gold marks the intended line</div></div>" +
+        "<div><p class='eyebrow'>Template</p><h1 class='detail-title'>" + t.name + "</h1>" +
+        "<p class='detail-origin'>" + t.origin + "</p><p class='detail-desc'>" + t.desc + "</p></div>" +
+      "</div>" +
+      "<div class='idea'><p class='eyebrow'>The strategic idea</p><p>" + t.idea + "</p></div>" +
+      "<h3 class='subhead'>Instances</h3><p class='tbl-note'>Where the template lives, and how faithful each version is to the archetype.</p>" +
+      "<div class='table-scroll'><table class='cat'><thead><tr><th>Course</th><th>Hole</th><th>Architect</th><th>Fidelity</th></tr></thead><tbody>" + rows + "</tbody></table></div>" +
+      "<div class='chips'><span class='chip-lbl'>Related templates</span>" + related + "</div>";
   }
+
+  /* ---- View switching ---- */
+  var panels = document.querySelectorAll("[data-view-panel]");
+  var navLinks = document.querySelectorAll(".nav a[data-view]");
+  function swap(view) {
+    panels.forEach(function (p) { p.hidden = p.getAttribute("data-view-panel") !== view; });
+    navLinks.forEach(function (a) { a.setAttribute("aria-current", a.getAttribute("data-view") === view ? "page" : "false"); });
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }
+  function go(fn) { if (document.startViewTransition && !reduce) document.startViewTransition(fn); else fn(); }
+
+  document.addEventListener("click", function (e) {
+    var plate = e.target.closest("[data-slug]");
+    if (plate) { e.preventDefault(); var s = plate.getAttribute("data-slug"); go(function () { renderDetail(s); swap("detail"); }); return; }
+    var v = e.target.closest("[data-view]");
+    if (v) { e.preventDefault(); go(function () { swap(v.getAttribute("data-view")); }); }
+  });
+
+  /* ---- Swatches ---- */
+  var SW = [["Aged paper","#efe8d5"],["Plate","#f7f1e1"],["Forest green","#2f5140"],["Green deep","#203a2c"],["Ochre brass","#a9823f"],["Ink","#23201a"],["Sand line","#a08a5f"],["Oxblood","#7a322c"]];
+  var sw = document.getElementById("swatches");
+  if (sw) sw.innerHTML = SW.map(function (s) { return "<div class='swatch'><div class='chip-c' style='background:" + s[1] + "'></div><div class='meta'><div class='nm'>" + s[0] + "</div><div class='hex'>" + s[1] + "</div></div></div>"; }).join("");
+
+  /* ---- Reveal ---- */
+  if (reduce || !("IntersectionObserver" in window)) { document.querySelectorAll(".reveal").forEach(function (el) { el.classList.add("in"); }); }
+  else { var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }); }, { threshold: 0.05 }); document.querySelectorAll(".reveal").forEach(function (el) { io.observe(el); }); }
 })();
 </script>
