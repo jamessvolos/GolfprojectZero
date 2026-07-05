@@ -5,6 +5,7 @@ import { CrossLinkChip } from "@/components/CrossLinkChip";
 import { MarkdownProse } from "@/components/MarkdownProse";
 import { SchematicDiagram } from "@/components/SchematicDiagram";
 import { getAllTemplates, getTemplateBySlug } from "@/lib/queries";
+import { excerpt } from "@/lib/site";
 
 export async function generateStaticParams() {
   const templates = await getAllTemplates();
@@ -17,7 +18,13 @@ export async function generateMetadata({
   params: { slug: string };
 }) {
   const t = await getTemplateBySlug(params.slug);
-  return { title: t ? `${t.name} — Template` : "Template" };
+  if (!t) return { title: "Template" };
+  const description = excerpt(t.strategicIdea);
+  return {
+    title: `${t.name} — Template`,
+    description,
+    openGraph: { title: `${t.name} — Template`, description },
+  };
 }
 
 export default async function TemplateDetailPage({

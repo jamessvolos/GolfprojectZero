@@ -4,6 +4,7 @@ import { CrossLinkChip } from "@/components/CrossLinkChip";
 import { FidelityMeter } from "@/components/FidelityMeter";
 import { MarkdownProse } from "@/components/MarkdownProse";
 import { getAllCourses, getCourseBySlug } from "@/lib/queries";
+import { excerpt } from "@/lib/site";
 
 export async function generateStaticParams() {
   const courses = await getAllCourses();
@@ -16,7 +17,9 @@ export async function generateMetadata({
   params: { slug: string };
 }) {
   const c = await getCourseBySlug(params.slug);
-  return { title: c ? c.name : "Course" };
+  if (!c) return { title: "Course" };
+  const description = excerpt(c.summary);
+  return { title: c.name, description, openGraph: { title: c.name, description } };
 }
 
 export default async function CoursePage({

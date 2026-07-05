@@ -1,6 +1,10 @@
 import Link from "next/link";
 
-export const metadata = { title: "Colophon" };
+export const metadata = {
+  title: "Colophon",
+  description:
+    "The thesis, the sources, and the method behind The Strategic Line — and a note on curation, attribution, and why the expected-value figures stay qualitative.",
+};
 
 export default function AboutPage() {
   return (

@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { CrossLinkChip } from "@/components/CrossLinkChip";
 import { MarkdownProse } from "@/components/MarkdownProse";
 import { getAllArchitects, getArchitectBySlug } from "@/lib/queries";
+import { excerpt } from "@/lib/site";
 import { eraLabel, schoolLabel } from "@/lib/taxonomy";
 
 export async function generateStaticParams() {
@@ -16,7 +17,9 @@ export async function generateMetadata({
   params: { slug: string };
 }) {
   const a = await getArchitectBySlug(params.slug);
-  return { title: a ? a.name : "Architect" };
+  if (!a) return { title: "Architect" };
+  const description = excerpt(a.bio);
+  return { title: a.name, description, openGraph: { title: a.name, description } };
 }
 
 export default async function ArchitectPage({

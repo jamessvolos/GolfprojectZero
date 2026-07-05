@@ -4,7 +4,11 @@ import { SchematicDiagram } from "@/components/SchematicDiagram";
 import { getAllTemplates } from "@/lib/queries";
 import { ERAS } from "@/lib/taxonomy";
 
-export const metadata = { title: "Templates" };
+export const metadata = {
+  title: "Templates",
+  description:
+    "The Macdonald/Raynor template holes as a classification system — each stating the decision it poses, with every course known to have a version of it.",
+};
 
 type Search = { sort?: string; era?: string };
 

@@ -4,6 +4,7 @@ import { CrossLinkChip } from "@/components/CrossLinkChip";
 import { DecisionOptions } from "@/components/DecisionOptions";
 import { MarkdownProse } from "@/components/MarkdownProse";
 import { getDecisionHoles, getHoleBySlug } from "@/lib/queries";
+import { excerpt } from "@/lib/site";
 
 export async function generateStaticParams() {
   const holes = await getDecisionHoles();
@@ -16,9 +17,10 @@ export async function generateMetadata({
   params: { slug: string };
 }) {
   const h = await getHoleBySlug(params.slug);
-  return {
-    title: h ? `${h.course.name}, Hole ${h.number} — Decision` : "Decision",
-  };
+  if (!h) return { title: "Decision" };
+  const title = `${h.course.name}, Hole ${h.number} — Decision`;
+  const description = excerpt(h.decisionBrief ?? h.summary);
+  return { title, description, openGraph: { title, description } };
 }
 
 export default async function DecisionDetailPage({

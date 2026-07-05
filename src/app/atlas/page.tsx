@@ -3,7 +3,11 @@ import { AtlasClient } from "@/components/atlas/AtlasClient";
 import type { ArchitectLite, CourseLite } from "@/components/atlas/types";
 import { getAllArchitects, getAllCourses } from "@/lib/queries";
 
-export const metadata = { title: "Atlas" };
+export const metadata = {
+  title: "Atlas",
+  description:
+    "An interactive map and timeline of the golden age of golf architecture (1900–1937) and the minimalist revival — filter by architect, era, or design school.",
+};
 
 export default async function AtlasPage() {
   const [courses, architects] = await Promise.all([

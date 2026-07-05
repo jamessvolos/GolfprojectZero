@@ -1,7 +1,11 @@
 import { EntityCard } from "@/components/EntityCard";
 import { getDecisionHoles } from "@/lib/queries";
 
-export const metadata = { title: "Decisions" };
+export const metadata = {
+  title: "Decisions",
+  description:
+    "Famous strategic holes with the actual choice modelled option by option — reward, risk, and expected-value intuition laid out in parallel.",
+};
 
 // Pull the "the choice" line out of the decision brief for the card teaser:
 // prefer a sentence that names the fork, else the first sentence.
