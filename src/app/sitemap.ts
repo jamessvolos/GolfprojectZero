@@ -13,7 +13,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     getAllArchitects(),
   ]);
 
-  const staticRoutes = ["", "/templates", "/atlas", "/about"].map(
+  const staticRoutes = ["", "/templates", "/atlas", "/architects", "/about"].map(
     (path) => ({
       url: `${SITE_URL}${path}`,
       changeFrequency: "monthly" as const,

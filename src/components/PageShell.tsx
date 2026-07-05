@@ -53,6 +53,9 @@ export function PageShell({ children }: { children: React.ReactNode }) {
               <Link href="/atlas" className="text-paper/70 hover:text-gold-bright">
                 Atlas
               </Link>
+              <Link href="/architects" className="text-paper/70 hover:text-gold-bright">
+                Architects
+              </Link>
               <Link href="/about" className="text-paper/70 hover:text-gold-bright">
                 Colophon
               </Link>
