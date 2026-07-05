@@ -1,10 +1,11 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 import { FilterBar, type FilterGroup } from "@/components/FilterBar";
-import { ERAS, SCHOOLS } from "@/lib/taxonomy";
+import { ERAS, eraLabel, schoolLabel, SCHOOLS } from "@/lib/taxonomy";
 import { matchesFilters, type ArchitectLite, type CourseLite } from "./types";
 import { Timeline } from "./Timeline";
 
@@ -108,7 +109,103 @@ export function AtlasClient({
           />
         )}
       </div>
+
+      {view === "map" && (
+        <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-1.5 text-xs text-ink-faint">
+          <span className="inline-flex items-center gap-1.5">
+            <span className="inline-block h-3 w-3 rounded-full bg-fairway" /> Course
+          </span>
+          <span className="inline-flex items-center gap-1.5">
+            <span className="inline-block h-3 w-3 rounded-full bg-gold" /> Selected
+            architect&rsquo;s courses
+          </span>
+          <span>Tiles © OpenStreetMap · coordinates entered by hand.</span>
+        </div>
+      )}
+
+      {/* Scannable index of the (filtered) courses — the atlas as a list. */}
+      <CourseIndex courses={filtered} />
     </div>
+  );
+}
+
+function CourseIndex({ courses }: { courses: CourseLite[] }) {
+  const sorted = [...courses].sort((a, b) => a.name.localeCompare(b.name));
+  return (
+    <section className="mt-14">
+      <h2 className="mb-4 font-serif text-2xl text-ink">
+        Courses on the atlas
+        <span className="ml-2 text-base text-ink-faint">{sorted.length}</span>
+      </h2>
+      <div className="overflow-x-auto rounded-sm border border-paper-edge">
+        <table className="w-full min-w-[42rem] border-collapse text-sm">
+          <thead>
+            <tr className="bg-paper-deep/50 text-left">
+              <Th>Course</Th>
+              <Th>Architect</Th>
+              <Th>Location</Th>
+              <Th>Opened</Th>
+              <Th>School</Th>
+            </tr>
+          </thead>
+          <tbody>
+            {sorted.map((c) => (
+              <tr
+                key={c.id}
+                className="border-t border-paper-edge hover:bg-fairway-wash/50"
+              >
+                <td className="px-4 py-2.5">
+                  <Link
+                    href={`/courses/${c.slug}`}
+                    className="font-serif text-base text-ink hover:text-fairway"
+                  >
+                    {c.name}
+                  </Link>
+                </td>
+                <td className="px-4 py-2.5 text-ink-soft">
+                  {c.architectSlug ? (
+                    <Link
+                      href={`/architects/${c.architectSlug}`}
+                      className="hover:text-fairway"
+                    >
+                      {c.architectName}
+                    </Link>
+                  ) : (
+                    (c.architectName ?? "—")
+                  )}
+                </td>
+                <td className="px-4 py-2.5 text-ink-faint">
+                  {c.location}, {c.country}
+                </td>
+                <td className="px-4 py-2.5 tabular-nums text-ink-soft">
+                  {c.yearOpened ?? "—"}
+                </td>
+                <td className="px-4 py-2.5">
+                  {c.school && (
+                    <span className="rounded-full bg-paper-deep px-2 py-0.5 text-xs text-ink-soft">
+                      {schoolLabel(c.school)}
+                    </span>
+                  )}
+                  {c.era && (
+                    <span className="ml-1 text-xs text-ink-faint">
+                      {eraLabel(c.era)}
+                    </span>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  );
+}
+
+function Th({ children }: { children: React.ReactNode }) {
+  return (
+    <th className="px-4 py-2.5 font-sans text-[0.62rem] font-semibold uppercase tracking-wider text-ink-faint">
+      {children}
+    </th>
   );
 }
 
