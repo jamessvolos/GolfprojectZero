@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CrossLinkChip } from "@/components/CrossLinkChip";
 import { MarkdownProse } from "@/components/MarkdownProse";
+import { SchematicDiagram } from "@/components/SchematicDiagram";
 import { getAllArchitects, getArchitectBySlug } from "@/lib/queries";
 import { excerpt } from "@/lib/site";
 import { eraLabel, schoolLabel } from "@/lib/taxonomy";
@@ -36,13 +37,18 @@ export default async function ArchitectPage({
       : null;
 
   // Templates this architect favored (unique, across all their courses' holes).
-  const templates = new Map<string, { slug: string; name: string }>();
+  const templates = new Map<
+    string,
+    { slug: string; name: string; count: number }
+  >();
   for (const c of architect.courses) {
     for (const h of c.holes) {
       for (const inst of h.templateInstances) {
+        const prev = templates.get(inst.template.slug);
         templates.set(inst.template.slug, {
           slug: inst.template.slug,
           name: inst.template.name,
+          count: (prev?.count ?? 0) + 1,
         });
       }
     }
@@ -89,17 +95,32 @@ export default async function ArchitectPage({
 
           {templates.size > 0 && (
             <section className="border-t border-paper-edge pt-8">
-              <p className="eyebrow mb-3">Templates favored</p>
-              <div className="flex flex-wrap gap-2">
-                {[...templates.values()].map((t) => (
-                  <CrossLinkChip
-                    key={t.slug}
-                    href={`/templates/${t.slug}`}
-                    label={t.name}
-                    tone="template"
-                  />
-                ))}
-              </div>
+              <p className="eyebrow mb-4">Templates favored</p>
+              <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                {[...templates.values()]
+                  .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name))
+                  .map((t) => (
+                    <li key={t.slug}>
+                      <Link
+                        href={`/templates/${t.slug}`}
+                        className="group flex items-center gap-3 rounded-sm border border-paper-edge bg-paper-card p-3 transition-colors hover:border-fairway"
+                      >
+                        <span className="w-14 shrink-0">
+                          <SchematicDiagram slug={t.slug} size="plate" />
+                        </span>
+                        <span>
+                          <span className="block font-serif text-base leading-tight text-ink group-hover:text-fairway">
+                            {t.name}
+                          </span>
+                          <span className="text-xs text-ink-faint">
+                            {t.count}{" "}
+                            {t.count === 1 ? "hole" : "holes"}
+                          </span>
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+              </ul>
             </section>
           )}
         </div>

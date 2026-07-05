@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { CrossLinkChip } from "@/components/CrossLinkChip";
 import { FidelityMeter } from "@/components/FidelityMeter";
 import { MarkdownProse } from "@/components/MarkdownProse";
+import { SchematicDiagram } from "@/components/SchematicDiagram";
 import { getAllCourses, getCourseBySlug } from "@/lib/queries";
 import { excerpt } from "@/lib/site";
 
@@ -89,22 +90,29 @@ export default async function CoursePage({
               <ul className="space-y-2">
                 {templateHoles.map((h) =>
                   h.templateInstances.map((inst) => (
-                    <li
-                      key={inst.id}
-                      className="rounded-sm border border-paper-edge bg-paper p-4"
-                    >
-                      <div className="flex items-center justify-between gap-2">
-                        <Link
-                          href={`/templates/${inst.template.slug}`}
-                          className="font-serif text-lg text-ink hover:text-fairway"
-                        >
-                          {inst.template.name}
-                        </Link>
-                        <FidelityMeter value={inst.fidelity} />
-                      </div>
-                      <p className="mt-1 text-sm text-ink-faint">
-                        Hole {h.number} · Par {h.par}
-                      </p>
+                    <li key={inst.id}>
+                      <Link
+                        href={`/templates/${inst.template.slug}`}
+                        className="group flex items-center gap-4 rounded-sm border border-paper-edge bg-paper-card p-4 transition-colors hover:border-fairway"
+                      >
+                        <span className="w-20 shrink-0">
+                          <SchematicDiagram
+                            slug={inst.template.slug}
+                            size="plate"
+                          />
+                        </span>
+                        <span className="min-w-0 flex-1">
+                          <span className="flex items-center justify-between gap-2">
+                            <span className="font-serif text-lg text-ink group-hover:text-fairway">
+                              {inst.template.name}
+                            </span>
+                            <FidelityMeter value={inst.fidelity} />
+                          </span>
+                          <span className="mt-1 block text-sm text-ink-faint">
+                            Hole {h.number} · Par {h.par}
+                          </span>
+                        </span>
+                      </Link>
                     </li>
                   )),
                 )}
