@@ -4,6 +4,7 @@ import { CompareTray, type InstanceData } from "@/components/CompareTray";
 import { CrossLinkChip } from "@/components/CrossLinkChip";
 import { MarkdownProse } from "@/components/MarkdownProse";
 import { SchematicDiagram } from "@/components/SchematicDiagram";
+import { SchematicLegend } from "@/components/SchematicLegend";
 import { getAllTemplates, getTemplateBySlug } from "@/lib/queries";
 import { excerpt } from "@/lib/site";
 
@@ -97,11 +98,12 @@ export default async function TemplateDetailPage({
             {template.description}
           </MarkdownProse>
         </div>
-        <div className="rounded-sm border border-paper-edge bg-paper-deep/30 p-6">
+        <div className="rounded-sm border border-paper-edge bg-paper-card p-6">
           <SchematicDiagram slug={template.slug} size="hero" className="mx-auto" />
-          <p className="mt-3 text-center text-xs text-ink-faint">
-            Schematic of the archetype. Gold marks the intended line of play.
-          </p>
+          <div className="mt-5 border-t border-paper-edge pt-4">
+            <p className="eyebrow mb-2.5">How to read it</p>
+            <SchematicLegend />
+          </div>
         </div>
       </header>
 
