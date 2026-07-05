@@ -10,7 +10,7 @@ export const metadata = {
     "The Macdonald/Raynor template holes as a classification system — each stating the decision it poses, with every course known to have a version of it.",
 };
 
-type Search = { sort?: string; era?: string };
+type Search = { sort?: string; era?: string; architect?: string };
 
 export default async function TemplatesPage({
   searchParams,
@@ -19,12 +19,30 @@ export default async function TemplatesPage({
 }) {
   const templates = await getAllTemplates();
 
-  // Filter by era of instances (an instance's era = its course's architect's).
+  // Architect options — everyone with at least one mapped instance.
+  const architectMap = new Map<string, string>();
+  for (const t of templates) {
+    for (const i of t.instances) {
+      const a = i.hole.course.architect;
+      if (a) architectMap.set(a.slug, a.name);
+    }
+  }
+  const architectOptions = [...architectMap.entries()]
+    .map(([value, label]) => ({ value, label }))
+    .sort((a, b) => a.label.localeCompare(b.label));
+
+  // Filter by era and/or architect of instances.
   const era = searchParams.era ?? "";
+  const architect = searchParams.architect ?? "";
   let list = templates;
   if (era) {
     list = list.filter((t) =>
       t.instances.some((i) => i.hole.course.architect?.era === era),
+    );
+  }
+  if (architect) {
+    list = list.filter((t) =>
+      t.instances.some((i) => i.hole.course.architect?.slug === architect),
     );
   }
 
@@ -43,6 +61,12 @@ export default async function TemplatesPage({
       label: "Era of instances",
       allLabel: "All eras",
       options: ERAS.map((e) => ({ value: e.value, label: e.label })),
+    },
+    {
+      param: "architect",
+      label: "Used by architect",
+      allLabel: "Any architect",
+      options: architectOptions,
     },
   ];
   const sortGroup: FilterGroup = {
