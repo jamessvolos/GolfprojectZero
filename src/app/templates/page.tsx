@@ -118,11 +118,24 @@ export default async function TemplatesPage({
             href={`/templates/${t.slug}`}
             className="group flex flex-col overflow-hidden rounded-sm border border-paper-edge bg-paper-card transition-all hover:-translate-y-1 hover:border-fairway hover:shadow-[0_14px_30px_rgba(35,28,18,0.12)]"
           >
-            <div className="relative border-b border-paper-edge p-4">
-              <span className="absolute right-3 top-3 font-sans text-[0.6rem] tracking-wider text-ink-faint">
+            <div className="relative border-b border-paper-edge">
+              <span className="absolute right-3 top-3 z-10 font-sans text-[0.6rem] tracking-wider text-ink-faint">
                 {String(i + 1).padStart(2, "0")}
               </span>
-              <SchematicDiagram slug={t.slug} size="plate" />
+              {t.photoUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={t.photoUrl}
+                  alt={`${t.name} — ${t.originCourse.split(" — ")[0]}`}
+                  title={t.photoCredit ?? undefined}
+                  loading="lazy"
+                  className="aspect-[3/2] w-full object-cover"
+                />
+              ) : (
+                <div className="p-4">
+                  <SchematicDiagram slug={t.slug} size="plate" />
+                </div>
+              )}
             </div>
             <div className="flex flex-1 flex-col p-5">
               <h3 className="font-serif text-2xl leading-tight text-ink transition-colors group-hover:text-fairway">

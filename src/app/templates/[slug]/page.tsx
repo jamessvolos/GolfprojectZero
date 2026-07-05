@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CompareTray, type InstanceData } from "@/components/CompareTray";
 import { CrossLinkChip } from "@/components/CrossLinkChip";
+import { Figure } from "@/components/Figure";
 import { MarkdownProse } from "@/components/MarkdownProse";
 import { SchematicDiagram } from "@/components/SchematicDiagram";
 import { SchematicLegend } from "@/components/SchematicLegend";
@@ -117,11 +118,24 @@ export default async function TemplateDetailPage({
           </MarkdownProse>
         </div>
         <div className="rounded-sm border border-paper-edge bg-paper-card p-6">
-          <SchematicDiagram slug={template.slug} size="hero" className="mx-auto" />
-          <div className="mt-5 border-t border-paper-edge pt-4">
-            <p className="eyebrow mb-2.5">How to read it</p>
-            <SchematicLegend />
-          </div>
+          <Figure
+            photoUrl={template.photoUrl}
+            photoCredit={template.photoCredit}
+            alt={`${template.name} template — ${template.originCourse}`}
+            fallback={
+              <SchematicDiagram
+                slug={template.slug}
+                size="hero"
+                className="mx-auto"
+              />
+            }
+          />
+          {!template.photoUrl && (
+            <div className="mt-5 border-t border-paper-edge pt-4">
+              <p className="eyebrow mb-2.5">How to read it</p>
+              <SchematicLegend />
+            </div>
+          )}
         </div>
       </header>
 

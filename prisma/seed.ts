@@ -76,6 +76,8 @@ async function main() {
         architectId,
         restorations: c.restorations ?? null,
         summary: c.summary,
+        photoUrl: c.photoUrl ?? null,
+        photoCredit: c.photoCredit ?? null,
       },
     });
     courseIdBySlug.set(c.slug, rec.id);
@@ -94,6 +96,8 @@ async function main() {
         description: t.description,
         strategicIdea: t.strategicIdea,
         diagramUrl: t.diagramUrl ?? null,
+        photoUrl: t.photoUrl ?? null,
+        photoCredit: t.photoCredit ?? null,
       },
     });
     templateIdBySlug.set(t.slug, rec.id);

@@ -17,6 +17,9 @@ restorations: |                # optional; markdown. Attribution nuance lives he
   Notable restorations and their attributions. Be careful and cite the
   contested points rather than smoothing them over — this is curation, not
   a data dump.
+photoUrl:                      # optional; /photos/<file> or a remote URL. Shows a
+                               # real photo at the top of the profile (else nothing).
+photoCredit:                   # REQUIRED when photoUrl is set — attribution/licence.
 ---
 
 Write the course summary here as markdown (this body becomes the `summary`

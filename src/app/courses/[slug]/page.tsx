@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CrossLinkChip } from "@/components/CrossLinkChip";
+import { Figure } from "@/components/Figure";
 import { FidelityMeter } from "@/components/FidelityMeter";
 import { MarkdownProse } from "@/components/MarkdownProse";
 import { SchematicDiagram } from "@/components/SchematicDiagram";
@@ -44,6 +45,16 @@ export default async function CoursePage({
         <span className="mx-2">/</span>
         <span className="text-ink-soft">{course.name}</span>
       </nav>
+
+      {course.photoUrl && (
+        <Figure
+          photoUrl={course.photoUrl}
+          photoCredit={course.photoCredit}
+          alt={`${course.name}, ${course.location}`}
+          fallback={null}
+          className="mb-10 overflow-hidden rounded-sm border border-paper-edge [&_img]:aspect-[21/9]"
+        />
+      )}
 
       <div className="grid gap-10 lg:grid-cols-[1.6fr_1fr]">
         {/* Main column */}

@@ -8,6 +8,9 @@ slug: template-slug           # kebab-case, unique, stable (used in URLs)
 name: Template Name            # e.g. "Redan", "Cape", "Short"
 originCourse: Course, Hole — Country   # free text: the canonical origin
 diagramUrl: /diagrams/template-slug.svg   # optional; schematic of the archetype
+photoUrl:                     # optional; /photos/<file> or remote URL. A real photo
+                              # of a canonical instance replaces the schematic if set.
+photoCredit:                  # REQUIRED when photoUrl is set — attribution/licence.
 strategicIdea: |              # REQUIRED — the spine of the whole site.
   The DECISION this template poses, in markdown. This is the single most
   important field on the page: it is rendered prominently, not as body text.

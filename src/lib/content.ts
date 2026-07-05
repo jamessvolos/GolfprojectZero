@@ -40,6 +40,8 @@ export interface CourseContent {
   architect?: string; // architect slug
   restorations?: string;
   summary: string;
+  photoUrl?: string;
+  photoCredit?: string;
 }
 
 export interface TemplateContent {
@@ -49,6 +51,8 @@ export interface TemplateContent {
   diagramUrl?: string;
   strategicIdea: string;
   description: string;
+  photoUrl?: string;
+  photoCredit?: string;
 }
 
 export interface HoleTemplateRef {
@@ -124,6 +128,8 @@ export function getCourses(): CourseContent[] {
       architect: data.architect ?? undefined,
       restorations: trim(data.restorations) || undefined,
       summary: content.trim(),
+      photoUrl: data.photoUrl ?? undefined,
+      photoCredit: trim(data.photoCredit) || undefined,
     };
   });
 }
@@ -138,6 +144,8 @@ export function getTemplates(): TemplateContent[] {
       diagramUrl: data.diagramUrl ?? undefined,
       strategicIdea: trim(data.strategicIdea),
       description: content.trim(),
+      photoUrl: data.photoUrl ?? undefined,
+      photoCredit: trim(data.photoCredit) || undefined,
     };
   });
 }
