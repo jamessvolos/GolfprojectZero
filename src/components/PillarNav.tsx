@@ -62,11 +62,11 @@ export function PillarNav({
             href={p.href}
             aria-current={active ? "page" : undefined}
             className={[
-              "rounded-sm px-3 py-1.5 text-sm transition-colors",
-              // Sits on the dark clubhouse-green header sign.
+              "border-b-2 px-3 py-1.5 font-sans text-xs uppercase tracking-wider transition-colors",
+              // Sits on the light, ruled masthead.
               active
-                ? "bg-white/10 text-gold-bright"
-                : "text-paper/70 hover:bg-white/5 hover:text-paper",
+                ? "border-fairway text-fairway"
+                : "border-transparent text-ink-soft hover:text-fairway",
             ].join(" ")}
           >
             {p.label}

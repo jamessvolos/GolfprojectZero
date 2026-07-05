@@ -13,23 +13,11 @@ html {
 }
 
 body {
-  /* Aged paper: a faint warm vignette + hairline grain, no images. */
   background-color: theme("colors.paper.DEFAULT");
-  background-image:
-    radial-gradient(
-      120% 90% at 50% 0%,
-      rgba(255, 253, 246, 0.5) 0%,
-      rgba(255, 253, 246, 0) 55%
-    ),
-    radial-gradient(
-      100% 80% at 50% 120%,
-      rgba(36, 27, 21, 0.05) 0%,
-      rgba(36, 27, 21, 0) 60%
-    );
-  background-attachment: fixed;
   color: theme("colors.ink.DEFAULT");
-  font-family: theme("fontFamily.sans");
-  line-height: 1.7;
+  /* Reading serif — EB Garamond — for the whole body. */
+  font-family: theme("fontFamily.body");
+  line-height: 1.62;
 }
 
 /* Selection in polished brass. */
@@ -46,8 +34,9 @@ body {
 
   /* Long-form markdown container — the one styled prose surface. */
   .prose-strategic {
-    @apply font-sans text-ink-soft leading-relaxed;
+    @apply font-body text-ink-soft leading-relaxed;
     max-width: 68ch;
+    font-size: 1.05rem;
   }
   .prose-strategic > * + * {
     margin-top: 1.15em;

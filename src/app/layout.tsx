@@ -1,19 +1,24 @@
 import type { Metadata } from "next";
-import { Fraunces, Inter } from "next/font/google";
+import { EB_Garamond, Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { PageShell } from "@/components/PageShell";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 
-// Serif for display/headings — Fraunces, an "old style" serif with the
-// bookish, slightly idiosyncratic warmth the subject calls for.
-const serif = Fraunces({
+// Display serif — Playfair Display, architectural and bookish, for headings.
+const serif = Playfair_Display({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-serif",
-  axes: ["opsz", "SOFT", "WONK"],
 });
 
-// Clean sans for UI/body.
+// Reading serif — EB Garamond, a warm oldstyle face for long-form prose.
+const body = EB_Garamond({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-body",
+});
+
+// Clean sans for small UI labels, eyebrows, and data.
 const sans = Inter({
   subsets: ["latin"],
   display: "swap",
@@ -41,7 +46,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${serif.variable} ${sans.variable}`}>
+    <html
+      lang="en"
+      className={`${serif.variable} ${body.variable} ${sans.variable}`}
+    >
       <body>
         <PageShell>{children}</PageShell>
       </body>
