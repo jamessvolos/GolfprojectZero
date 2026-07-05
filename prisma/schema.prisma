@@ -1,0 +1,106 @@
+// The Strategic Line — data model.
+// Three public pages, one shared graph: Architects → Courses → Holes,
+// with Templates (classification) and DecisionOptions (the decision model)
+// layered on top. See build spec §2.
+//
+// Dev uses SQLite; prod swaps `provider = "postgresql"` + DATABASE_URL.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Architect {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  name      String
+  born      Int?
+  died      Int?
+  // Stored as String because the dev datasource is SQLite, which Prisma does
+  // not support native enums for. Allowed values are enforced in TypeScript
+  // (see src/lib/content.ts Era/School and src/lib/taxonomy.ts).
+  era       String // Era:    GOLDEN_AGE | MODERN_REVIVAL | OTHER
+  school    String // School: STRATEGIC | PENAL | HEROIC | MINIMALIST
+  bio       String // markdown
+  photoUrl  String?
+  courses   Course[]
+  createdAt DateTime @default(now())
+}
+
+model Course {
+  id           String     @id @default(cuid())
+  slug         String     @unique
+  name         String
+  location     String
+  country      String
+  lat          Float
+  lng          Float
+  yearOpened   Int?
+  architectId  String?
+  architect    Architect? @relation(fields: [architectId], references: [id])
+  restorations String? // markdown: notable restorations + attributions
+  summary      String // markdown
+  holes        Hole[]
+  createdAt    DateTime   @default(now())
+}
+
+model Template {
+  id            String             @id @default(cuid())
+  slug          String             @unique
+  name          String // "Redan", "Biarritz", "Cape", "Eden", "Alps", "Short", "Road", "Punchbowl"
+  originCourse  String // free text, e.g. "North Berwick (West Links), Scotland"
+  description   String // markdown: what defines this template
+  strategicIdea String // markdown: the DECISION the template poses — the site's spine
+  diagramUrl    String? // schematic SVG/image of the archetype
+  instances     TemplateInstance[]
+  createdAt     DateTime           @default(now())
+}
+
+// join: a specific hole that IS a version of a template
+model TemplateInstance {
+  id         String   @id @default(cuid())
+  templateId String
+  template   Template @relation(fields: [templateId], references: [id])
+  holeId     String
+  hole       Hole     @relation(fields: [holeId], references: [id])
+  notes      String // how THIS instance differs from the archetype
+  fidelity   Int // 1-5, how faithful to the template
+}
+
+model Hole {
+  id       String @id @default(cuid())
+  slug     String @unique
+  courseId String
+  course   Course @relation(fields: [courseId], references: [id])
+  number   Int
+  par      Int
+  yardage  Int?
+  summary  String // markdown
+
+  // Page 2 (Decision Architecture) fields — nullable; only authored holes have these:
+  decisionBrief     String? // markdown: the choice the hole poses
+  options           DecisionOption[]
+  templateInstances TemplateInstance[]
+  createdAt         DateTime           @default(now())
+}
+
+// Page 2: each hole poses N options with risk/reward logic
+model DecisionOption {
+  id           String @id @default(cuid())
+  holeId       String
+  hole         Hole   @relation(fields: [holeId], references: [id])
+  label        String // "Bite off the carry", "Lay back left"
+  reward       String // markdown
+  risk         String // markdown
+  expectedNote String // markdown: the EV / strokes-gained intuition (qualitative unless sourced)
+  order        Int
+}
+
+// NOTE: `era` and `school` are stored as String rather than Prisma enums
+// because the dev datasource is SQLite (no native enum support). The canonical
+// value sets and their labels live in src/lib/taxonomy.ts. When migrating the
+// prod datasource to Postgres, these can be promoted to real enums.

@@ -1,0 +1,97 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background-color: theme("colors.paper.DEFAULT");
+  color: theme("colors.ink.DEFAULT");
+  font-family: theme("fontFamily.sans");
+  line-height: 1.7;
+}
+
+/* Selection in the restrained gold wash. */
+::selection {
+  background: theme("colors.gold.wash");
+  color: theme("colors.ink.DEFAULT");
+}
+
+@layer components {
+  /* Small-caps section label used throughout (museum wall-label voice). */
+  .eyebrow {
+    @apply font-sans text-xs uppercase tracking-label text-ink-faint;
+  }
+
+  /* Long-form markdown container — the one styled prose surface. */
+  .prose-strategic {
+    @apply font-sans text-ink-soft leading-relaxed;
+    max-width: 68ch;
+  }
+  .prose-strategic > * + * {
+    margin-top: 1.15em;
+  }
+  .prose-strategic h2 {
+    @apply font-serif text-2xl text-ink mt-10 mb-1;
+    line-height: 1.2;
+  }
+  .prose-strategic h3 {
+    @apply font-serif text-xl text-ink mt-8 mb-1;
+    line-height: 1.25;
+  }
+  .prose-strategic p {
+    @apply text-ink-soft;
+  }
+  .prose-strategic strong {
+    @apply font-semibold text-ink;
+  }
+  .prose-strategic em {
+    font-style: italic;
+  }
+  .prose-strategic a {
+    @apply text-fairway underline decoration-fairway/30 underline-offset-2;
+    text-decoration-thickness: 1px;
+  }
+  .prose-strategic a:hover {
+    @apply decoration-fairway;
+  }
+  .prose-strategic ul {
+    @apply list-disc pl-5 space-y-1;
+  }
+  .prose-strategic ol {
+    @apply list-decimal pl-5 space-y-1;
+  }
+  .prose-strategic blockquote {
+    @apply border-l-2 border-gold pl-4 italic text-ink-soft;
+  }
+  .prose-strategic code {
+    @apply font-mono text-sm bg-paper-deep px-1 py-0.5 rounded;
+  }
+
+  /* Hairline rule in the paper-edge tone. */
+  .rule {
+    @apply border-t border-paper-edge;
+  }
+}
+
+/* Leaflet: neutralize the default blue focus/attribution styling so the map
+   sits inside the editorial palette. */
+.leaflet-container {
+  background: theme("colors.paper.deep");
+  font-family: theme("fontFamily.sans");
+}
+.leaflet-popup-content-wrapper {
+  border-radius: 2px;
+  box-shadow: 0 6px 24px rgba(28, 26, 23, 0.14);
+}
+.leaflet-bar a {
+  color: theme("colors.ink.DEFAULT");
+}

@@ -1,0 +1,82 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+/**
+ * The three pillars, always reachable. The current pillar is marked. Shared by
+ * the header (see PageShell) and available for reuse anywhere the three-way
+ * choice needs to be surfaced.
+ */
+export const PILLARS = [
+  {
+    href: "/templates",
+    label: "Templates",
+    tagline: "The classification system",
+  },
+  {
+    href: "/decisions",
+    label: "Decisions",
+    tagline: "The choice each hole poses",
+  },
+  {
+    href: "/atlas",
+    label: "Atlas",
+    tagline: "The golden age, mapped",
+  },
+] as const;
+
+function isActive(pathname: string, href: string) {
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
+export function PillarNav({
+  variant = "header",
+}: {
+  variant?: "header" | "cards";
+}) {
+  const pathname = usePathname();
+
+  if (variant === "cards") {
+    return (
+      <nav className="grid gap-4 sm:grid-cols-3">
+        {PILLARS.map((p, i) => (
+          <Link
+            key={p.href}
+            href={p.href}
+            className="group block rounded-sm border border-paper-edge bg-paper-deep/40 p-6 transition-colors hover:border-gold hover:bg-paper-deep"
+          >
+            <div className="eyebrow mb-3">Pillar {["I", "II", "III"][i]}</div>
+            <div className="font-serif text-2xl text-ink group-hover:text-fairway">
+              {p.label}
+            </div>
+            <div className="mt-1 text-sm text-ink-faint">{p.tagline}</div>
+          </Link>
+        ))}
+      </nav>
+    );
+  }
+
+  return (
+    <nav className="flex items-center gap-1 sm:gap-2">
+      {PILLARS.map((p) => {
+        const active = isActive(pathname, p.href);
+        return (
+          <Link
+            key={p.href}
+            href={p.href}
+            aria-current={active ? "page" : undefined}
+            className={[
+              "rounded-sm px-3 py-1.5 text-sm transition-colors",
+              active
+                ? "bg-fairway/10 text-fairway"
+                : "text-ink-soft hover:text-ink hover:bg-paper-deep",
+            ].join(" ")}
+          >
+            {p.label}
+          </Link>
+        );
+      })}
+    </nav>
+  );
+}
