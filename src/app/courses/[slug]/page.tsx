@@ -33,7 +33,6 @@ export default async function CoursePage({
   const templateHoles = course.holes.filter(
     (h) => h.templateInstances.length > 0,
   );
-  const decisionHoles = course.holes.filter((h) => h.decisionBrief);
 
   return (
     <div className="mx-auto max-w-shell px-5 py-14">
@@ -78,36 +77,6 @@ export default async function CoursePage({
               <MarkdownProse className="prose-strategic text-sm">
                 {course.restorations}
               </MarkdownProse>
-            </section>
-          )}
-
-          {/* Decision breakdowns on this course */}
-          {decisionHoles.length > 0 && (
-            <section className="mt-10">
-              <h2 className="mb-4 font-serif text-2xl text-ink">
-                Modelled decisions here
-              </h2>
-              <ul className="space-y-3">
-                {decisionHoles.map((h) => (
-                  <li key={h.id}>
-                    <Link
-                      href={`/decisions/${h.slug}`}
-                      className="group flex items-baseline justify-between gap-4 rounded-sm border border-paper-edge bg-paper p-4 hover:border-gold"
-                    >
-                      <span className="font-serif text-lg text-ink group-hover:text-fairway">
-                        Hole {h.number}
-                        <span className="ml-2 text-sm text-ink-faint">
-                          Par {h.par}
-                          {h.yardage ? ` · ${h.yardage} yds` : ""}
-                        </span>
-                      </span>
-                      <span className="text-sm text-fairway-deep">
-                        Model the choice →
-                      </span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
             </section>
           )}
         </div>
@@ -164,11 +133,6 @@ export default async function CoursePage({
                           {inst.template.name}
                         </span>
                       ))}
-                      {h.decisionBrief && (
-                        <span className="rounded-full bg-fairway-wash px-2 py-0.5 text-xs text-fairway-deep">
-                          Decision
-                        </span>
-                      )}
                     </span>
                   </li>
                 ))}

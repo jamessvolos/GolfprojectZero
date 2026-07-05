@@ -1,13 +1,18 @@
 import Link from "next/link";
 import { PillarNav } from "@/components/PillarNav";
-import { getAllCourses, getAllTemplates, getDecisionHoles } from "@/lib/queries";
+import { getAllArchitects, getAllCourses, getAllTemplates } from "@/lib/queries";
 
 export default async function HomePage() {
-  const [templates, decisions, courses] = await Promise.all([
+  const [templates, courses, architects] = await Promise.all([
     getAllTemplates(),
-    getDecisionHoles(),
     getAllCourses(),
+    getAllArchitects(),
   ]);
+
+  // Feature the most-reproduced template — the clearest way in.
+  const featured = [...templates].sort(
+    (a, b) => b.instances.length - a.instances.length,
+  )[0];
 
   return (
     <div className="mx-auto max-w-shell px-5">
@@ -27,33 +32,32 @@ export default async function HomePage() {
             reads it best.
           </p>
           <p>
-            This site makes that idea explicit and interactive. Three lenses
-            over one graph of architects, courses, and holes: a{" "}
-            <em>classification system</em> of template holes, a{" "}
-            <em>model of the decision</em> each famous hole poses, and a{" "}
-            <em>map</em> of the golden age that produced them.
+            This is a study of the holes that idea produced. Two lenses over one
+            graph of architects, courses, and holes: a{" "}
+            <em>classification</em> of the Golden Age template holes, and a{" "}
+            <em>map</em> of the architects and courses that made them.
           </p>
         </div>
         <div className="mt-10 flex flex-wrap gap-3">
           <Link
-            href="/decisions"
+            href="/templates"
             className="rounded-sm bg-fairway px-5 py-2.5 text-paper transition-colors hover:bg-fairway-deep"
           >
-            See a hole modelled →
+            Explore the templates →
           </Link>
           <Link
-            href="/about"
+            href="/atlas"
             className="rounded-sm border border-paper-edge px-5 py-2.5 text-ink-soft transition-colors hover:border-fairway hover:text-fairway"
           >
-            The thesis in full
+            Open the atlas
           </Link>
         </div>
       </section>
 
-      {/* Three pillars */}
+      {/* Two pillars */}
       <section className="py-16">
         <div className="mb-8 flex items-baseline justify-between">
-          <h2 className="font-serif text-2xl text-ink">Three lenses, one game</h2>
+          <h2 className="font-serif text-2xl text-ink">Two lenses, one game</h2>
         </div>
         <PillarNav variant="cards" />
       </section>
@@ -61,29 +65,30 @@ export default async function HomePage() {
       {/* At a glance */}
       <section className="grid gap-px overflow-hidden rounded-sm border border-paper-edge bg-paper-edge sm:grid-cols-3">
         <Stat n={templates.length} label="Template holes classified" href="/templates" />
-        <Stat n={decisions.length} label="Decisions modelled hole-by-hole" href="/decisions" />
-        <Stat n={courses.length} label="Courses on the atlas" href="/atlas" />
+        <Stat n={architects.length} label="Architects on the atlas" href="/atlas" />
+        <Stat n={courses.length} label="Courses mapped" href="/atlas" />
       </section>
 
-      {/* Featured decision */}
-      {decisions[0] && (
+      {/* Featured template — deep appreciation for the archetypes */}
+      {featured && (
         <section className="py-20">
-          <p className="eyebrow mb-3">The site&rsquo;s most distinctive page</p>
+          <p className="eyebrow mb-3">Start here</p>
           <h2 className="max-w-3xl font-serif text-3xl leading-tight text-ink">
-            Everyone describes holes. This models the decision.
+            A template hole is a portable argument about risk and reward.
           </h2>
           <p className="mt-4 max-w-prose text-ink-soft">
-            Take a famous strategic hole and lay out the actual choice it poses —
-            option by option, with the risk, the reward, and the strokes-gained
-            intuition set side by side. The parallel layout <em>is</em> the
-            argument.
+            Macdonald and Raynor realized the great British holes were not
+            accidents but <em>ideas</em> — the Redan, the Cape, the Biarritz —
+            that could be abstracted and rebuilt anywhere. Each template states
+            the decision it poses, then maps every course known to carry a
+            version of it.
           </p>
           <Link
-            href={`/decisions/${decisions[0].slug}`}
+            href={`/templates/${featured.slug}`}
             className="mt-6 inline-block font-serif text-lg text-fairway underline decoration-fairway/30 underline-offset-4 hover:decoration-fairway"
           >
-            Start with the {decisions[0].course.name}, hole{" "}
-            {decisions[0].number} →
+            Begin with the {featured.name} — {featured.instances.length} instances
+            mapped →
           </Link>
         </section>
       )}

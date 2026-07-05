@@ -26,14 +26,14 @@ export default function AboutPage() {
           it best.
         </p>
         <p>
-          The three pillars are three lenses on that one idea.{" "}
+          Two pillars are two lenses on that one idea.{" "}
           <Link href="/templates">Templates</Link> treat holes as a
-          classification system — portable arguments about risk and reward.{" "}
-          <Link href="/decisions">Decisions</Link> model the fork a specific
-          hole poses, option by option. The{" "}
+          classification — the Golden Age archetypes as portable arguments about
+          risk and reward, each stating the decision it poses and mapping every
+          course that carries a version of it. The{" "}
           <Link href="/atlas">Atlas</Link> places the architects and courses of
-          the golden age on a map and a timeline. All three read from the same
-          graph of architects, courses, and holes.
+          the golden age on a map and a timeline. Both read from the same graph
+          of architects, courses, and holes.
         </p>
 
         <h2>Method</h2>
@@ -42,13 +42,6 @@ export default function AboutPage() {
           database at build — there is no CMS. Each content type follows a fixed
           authoring loop (documented in <code>/content/_templates</code>) so
           that adding to the site is mechanical rather than inventive each time.
-        </p>
-        <p>
-          Where the site models the expected value of a decision, the notes are{" "}
-          <strong>qualitative</strong> — the shape of the tradeoff, not
-          fabricated strokes-gained figures. The PGA Tour&rsquo;s strokes-gained
-          baseline is public and could support real numbers later; until then,
-          the intuition stands on its own rather than borrowing false precision.
         </p>
 
         <h2>On attribution</h2>

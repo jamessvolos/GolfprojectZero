@@ -47,13 +47,10 @@ export function PageShell({ children }: { children: React.ReactNode }) {
             </div>
             <nav className="flex flex-col gap-2 text-sm sm:items-end">
               <span className="text-xs uppercase tracking-label text-gold-bright/70">
-                The three pillars
+                The two pillars
               </span>
               <Link href="/templates" className="text-paper/70 hover:text-gold-bright">
                 Templates
-              </Link>
-              <Link href="/decisions" className="text-paper/70 hover:text-gold-bright">
-                Decisions
               </Link>
               <Link href="/atlas" className="text-paper/70 hover:text-gold-bright">
                 Atlas

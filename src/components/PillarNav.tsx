@@ -4,20 +4,15 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 /**
- * The three pillars, always reachable. The current pillar is marked. Shared by
- * the header (see PageShell) and available for reuse anywhere the three-way
+ * The two pillars, always reachable. The current pillar is marked. Shared by
+ * the header (see PageShell) and available for reuse anywhere the two-way
  * choice needs to be surfaced.
  */
 export const PILLARS = [
   {
     href: "/templates",
     label: "Templates",
-    tagline: "The classification system",
-  },
-  {
-    href: "/decisions",
-    label: "Decisions",
-    tagline: "The choice each hole poses",
+    tagline: "The classification of Golden Age holes",
   },
   {
     href: "/atlas",
@@ -39,14 +34,14 @@ export function PillarNav({
 
   if (variant === "cards") {
     return (
-      <nav className="grid gap-4 sm:grid-cols-3">
+      <nav className="grid gap-4 sm:grid-cols-2">
         {PILLARS.map((p, i) => (
           <Link
             key={p.href}
             href={p.href}
             className="group block rounded-sm border border-paper-edge bg-paper-deep/40 p-6 transition-colors hover:border-gold hover:bg-paper-deep"
           >
-            <div className="eyebrow mb-3">Pillar {["I", "II", "III"][i]}</div>
+            <div className="eyebrow mb-3">Pillar {["I", "II"][i]}</div>
             <div className="font-serif text-2xl text-ink group-hover:text-fairway">
               {p.label}
             </div>
