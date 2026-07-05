@@ -234,12 +234,16 @@ export function SchematicDiagram({
   className = "",
 }: {
   slug: string;
-  size?: "thumb" | "hero";
+  size?: "thumb" | "hero" | "plate";
   className?: string;
 }) {
   const shape = SHAPES[slug as Slug];
   const dims =
-    size === "thumb" ? "h-32 w-full" : "aspect-[16/10] w-full max-w-lg";
+    size === "thumb"
+      ? "h-32 w-full"
+      : size === "plate"
+        ? "aspect-[3/2] w-full"
+        : "aspect-[16/10] w-full max-w-lg";
 
   return (
     <svg
