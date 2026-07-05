@@ -30,7 +30,7 @@ export default async function ArchitectsIndexPage() {
       </nav>
 
       <header className="max-w-prose border-b border-paper-edge pb-10">
-        <p className="eyebrow mb-4">Pillar II · The people</p>
+        <p className="eyebrow mb-4">The golden age · the people</p>
         <h1 className="font-serif text-4xl leading-tight text-ink">Architects</h1>
         <p className="mt-5 text-ink-soft">
           The hands behind the holes — the Golden Age masters who built the
