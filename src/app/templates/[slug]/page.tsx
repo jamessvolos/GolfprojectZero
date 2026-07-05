@@ -78,6 +78,24 @@ export default async function TemplateDetailPage({
     notes: inst.notes,
   }));
 
+  // At-a-glance facts, computed from the instances.
+  const countries = new Set(
+    template.instances.map((i) => i.hole.course.country).filter(Boolean),
+  );
+  const topFidelity = template.instances.reduce(
+    (m, i) => Math.max(m, i.fidelity),
+    0,
+  );
+  const facts: { label: string; value: string }[] = [
+    { label: "Instances", value: String(template.instances.length) },
+    { label: "Architects", value: String(architects.size) },
+    { label: "Countries", value: String(countries.size) },
+    {
+      label: "Truest to type",
+      value: topFidelity ? `${topFidelity} / 5` : "—",
+    },
+  ];
+
   return (
     <div className="mx-auto max-w-shell px-5 py-14">
       <Breadcrumb name={template.name} />
@@ -106,6 +124,16 @@ export default async function TemplateDetailPage({
           </div>
         </div>
       </header>
+
+      {/* At a glance */}
+      <dl className="grid grid-cols-2 divide-x divide-paper-edge border-b border-paper-edge sm:grid-cols-4">
+        {facts.map((f) => (
+          <div key={f.label} className="px-5 py-6 first:pl-0">
+            <dt className="eyebrow mb-2">{f.label}</dt>
+            <dd className="font-serif text-3xl text-fairway">{f.value}</dd>
+          </div>
+        ))}
+      </dl>
 
       {/* The strategic idea — the spine. An engraved brass plaque. */}
       <section className="plaque my-14 border-l-4 border-l-gold px-6 py-8 sm:px-10 sm:py-10">
