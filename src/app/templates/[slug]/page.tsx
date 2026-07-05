@@ -105,8 +105,8 @@ export default async function TemplateDetailPage({
         </div>
       </header>
 
-      {/* The strategic idea — the spine. Rendered prominently. */}
-      <section className="my-14 rounded-sm border-l-2 border-gold bg-gold-wash/40 px-6 py-8 sm:px-10 sm:py-10">
+      {/* The strategic idea — the spine. An engraved brass plaque. */}
+      <section className="plaque my-14 border-l-4 border-l-gold px-6 py-8 sm:px-10 sm:py-10">
         <p className="eyebrow mb-3 text-gold-deep">The strategic idea</p>
         <MarkdownProse className="prose-strategic max-w-3xl text-lg leading-relaxed text-ink [&_strong]:text-fairway-deep">
           {template.strategicIdea}

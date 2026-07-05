@@ -6,12 +6,13 @@
  * Palette: ink lines, fairway-green putting surface, sandy bunkers, and a gold
  * dashed "line of play" that encodes each template's intended decision.
  */
-const INK = "#1C1A17";
-const FAIRWAY = "#3A5A40";
-const FAIRWAY_WASH = "#E8EDE6";
-const GOLD = "#B08D4C";
-const SAND = "#E4DECB";
-const SAND_LINE = "#C9BF9E";
+// Kept in step with the clubhouse tokens in tailwind.config.ts.
+const INK = "#211D17";
+const FAIRWAY = "#2F5140";
+const FAIRWAY_WASH = "#E3EAE1";
+const GOLD = "#AE8A46";
+const SAND = "#E4D8B8";
+const SAND_LINE = "#C7B98F";
 
 type Slug =
   | "redan"

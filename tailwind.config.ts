@@ -7,26 +7,48 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Design tokens — no pure black, no pure white.
+        // Old-school clubhouse palette — aged paper, painted racing green,
+        // walnut panelling, polished brass, and the oxblood of a club tie.
+        // No pure black, no pure white.
         paper: {
-          DEFAULT: "#F7F4EC", // warm paper background
-          deep: "#EFEADD", // slightly recessed panels
-          edge: "#E4DECB", // hairline borders
+          DEFAULT: "#F4EEE0", // aged clubhouse cream
+          deep: "#EAE1CC", // recessed panel / matting
+          edge: "#D8CDB0", // warm hairline border (framed-board edge)
         },
         ink: {
-          DEFAULT: "#1C1A17", // primary text
-          soft: "#4A463E", // secondary text
-          faint: "#7C7565", // tertiary / captions
+          DEFAULT: "#211D17", // warm near-black
+          soft: "#4A443A", // secondary text
+          faint: "#79705F", // tertiary / captions
         },
+        // Painted billiard/racing green — the club colour.
         fairway: {
-          DEFAULT: "#3A5A40", // muted fairway green accent
-          deep: "#2C4632",
-          wash: "#E8EDE6",
+          DEFAULT: "#2F5140",
+          deep: "#213B2E",
+          wash: "#E3EAE1",
         },
+        // Deepest green — the painted entrance sign (header).
+        clubhouse: {
+          DEFAULT: "#1D3325",
+          deep: "#152619",
+        },
+        // Walnut panelling — the honour-board wood (footer, dark chrome).
+        walnut: {
+          DEFAULT: "#3A2C23",
+          deep: "#241B15",
+          soft: "#5B473A",
+        },
+        // Polished brass — nameplates, emphasis, the line of play.
         gold: {
-          DEFAULT: "#B08D4C", // single restrained gold for emphasis
-          deep: "#8C6E37",
-          wash: "#F0E7D4",
+          DEFAULT: "#AE8A46",
+          bright: "#C8A65C",
+          deep: "#856531",
+          wash: "#EFE3C8",
+        },
+        // Oxblood / claret — the club tie; the risk half of the ledger.
+        claret: {
+          DEFAULT: "#7C3A38",
+          deep: "#5C2927",
+          wash: "#ECDBD6",
         },
       },
       fontFamily: {

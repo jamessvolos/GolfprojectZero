@@ -68,9 +68,10 @@ export function PillarNav({
             aria-current={active ? "page" : undefined}
             className={[
               "rounded-sm px-3 py-1.5 text-sm transition-colors",
+              // Sits on the dark clubhouse-green header sign.
               active
-                ? "bg-fairway/10 text-fairway"
-                : "text-ink-soft hover:text-ink hover:bg-paper-deep",
+                ? "bg-white/10 text-gold-bright"
+                : "text-paper/70 hover:bg-white/5 hover:text-paper",
             ].join(" ")}
           >
             {p.label}

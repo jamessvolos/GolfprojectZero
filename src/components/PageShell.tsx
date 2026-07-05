@@ -2,28 +2,28 @@ import Link from "next/link";
 import { PillarNav } from "./PillarNav";
 
 /**
- * The one shared shell: header (site title + 3-pillar nav) and footer
- * (colophon link), with a consistent max-width and vertical rhythm. Every page
- * renders inside this — it is what makes three different pages feel like one
- * site.
+ * The one shared shell, in the clubhouse idiom: the header is a painted
+ * racing-green entrance sign with a brass fitting-line; the footer is a walnut
+ * honour board with gold lettering. Every page renders between them, which is
+ * what makes three different pages feel like one clubhouse.
  */
 export function PageShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen flex-col">
       <a
         href="#main"
-        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-sm focus:bg-fairway focus:px-4 focus:py-2 focus:text-paper"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-sm focus:bg-gold focus:px-4 focus:py-2 focus:text-walnut-deep"
       >
         Skip to content
       </a>
-      <header className="sticky top-0 z-30 border-b border-paper-edge bg-paper/85 backdrop-blur-sm">
+      <header className="sticky top-0 z-30 bg-clubhouse shadow-[0_1px_0_rgba(174,138,70,0.55),0_2px_0_rgba(0,0,0,0.25)]">
         <div className="mx-auto flex max-w-shell items-center justify-between gap-4 px-5 py-3">
-          <Link href="/" className="group flex items-baseline gap-2">
-            <span className="font-serif text-lg leading-none text-ink transition-colors group-hover:text-fairway">
+          <Link href="/" className="group flex items-baseline gap-2.5">
+            <span className="engraved font-serif text-lg leading-none transition-colors group-hover:text-gold-bright">
               The Strategic Line
             </span>
-            <span className="hidden text-xs text-ink-faint sm:inline">
-              golf course architecture
+            <span className="hidden text-xs uppercase tracking-label text-paper/45 sm:inline">
+              Golf Course Architecture
             </span>
           </Link>
           <PillarNav />
@@ -34,36 +34,41 @@ export function PageShell({ children }: { children: React.ReactNode }) {
         {children}
       </main>
 
-      <footer className="mt-24 border-t border-paper-edge bg-paper-deep/40">
-        <div className="mx-auto max-w-shell px-5 py-12">
-          <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
+      <footer className="honor-board mt-24 border-t-2 border-gold/40">
+        <div className="mx-auto max-w-shell px-5 py-14">
+          <div className="flex flex-col justify-between gap-8 sm:flex-row sm:items-start">
             <div className="max-w-prose">
-              <p className="font-serif text-lg text-ink">The Strategic Line</p>
-              <p className="mt-2 text-sm text-ink-faint">
+              <p className="engraved font-serif text-xl">The Strategic Line</p>
+              <p className="mt-3 text-sm leading-relaxed text-paper/55">
                 Every great hole is a decision problem. Strategic design offers
                 a well-formed choice between risk and reward — this site makes
                 that idea explicit.
               </p>
             </div>
-            <nav className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
-              <Link href="/templates" className="text-ink-soft hover:text-fairway">
+            <nav className="flex flex-col gap-2 text-sm sm:items-end">
+              <span className="text-xs uppercase tracking-label text-gold-bright/70">
+                The three pillars
+              </span>
+              <Link href="/templates" className="text-paper/70 hover:text-gold-bright">
                 Templates
               </Link>
-              <Link href="/decisions" className="text-ink-soft hover:text-fairway">
+              <Link href="/decisions" className="text-paper/70 hover:text-gold-bright">
                 Decisions
               </Link>
-              <Link href="/atlas" className="text-ink-soft hover:text-fairway">
+              <Link href="/atlas" className="text-paper/70 hover:text-gold-bright">
                 Atlas
               </Link>
-              <Link href="/about" className="text-ink-soft hover:text-fairway">
+              <Link href="/about" className="text-paper/70 hover:text-gold-bright">
                 Colophon
               </Link>
             </nav>
           </div>
-          <p className="mt-10 text-xs text-ink-faint">
-            A personal project by James Svolos. Content is curated and, where
-            attribution is contested, said to be so.
-          </p>
+          <div className="mt-12 border-t border-white/10 pt-6">
+            <p className="text-xs text-paper/45">
+              A personal project by James Svolos. Content is curated and, where
+              attribution is contested, said to be so.
+            </p>
+          </div>
         </div>
       </footer>
     </div>

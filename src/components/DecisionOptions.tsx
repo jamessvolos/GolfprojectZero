@@ -24,12 +24,14 @@ function Row({
   tone: "reward" | "risk" | "expected";
   children: string;
 }) {
+  // Reward in club green, risk in the oxblood of the club tie, the reckoning
+  // in brass — the ledger reads at a glance.
   const accent =
     tone === "reward"
       ? "text-fairway-deep"
       : tone === "risk"
-        ? "text-gold-deep"
-        : "text-ink";
+        ? "text-claret-deep"
+        : "text-gold-deep";
   return (
     <div className="border-t border-paper-edge px-5 py-4">
       <div className={`eyebrow mb-1.5 ${accent}`}>{heading}</div>
@@ -61,7 +63,7 @@ export function DecisionOptions({
           key={o.id}
           className="flex flex-col overflow-hidden rounded-sm border border-paper-edge bg-paper"
         >
-          <header className="bg-paper-deep/50 px-5 py-4">
+          <header className="border-b border-gold/30 bg-paper-deep/60 px-5 py-4">
             <div className="eyebrow text-ink-faint">
               Option {["A", "B", "C", "D"][i] ?? i + 1}
             </div>
