@@ -5,10 +5,11 @@
   "description": "The Strategic Line — a site about golf course architecture, built on one thesis: every great hole is a decision problem.",
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && prisma db push --accept-data-loss && tsx prisma/seed.ts && next build",
+    "build": "npm run validate && prisma generate && prisma db push --accept-data-loss && tsx prisma/seed.ts && next build",
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
+    "validate": "tsx scripts/validate-content.ts",
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
     "db:seed": "tsx prisma/seed.ts",

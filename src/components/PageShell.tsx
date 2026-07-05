@@ -10,6 +10,12 @@ import { PillarNav } from "./PillarNav";
 export function PageShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen flex-col">
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-sm focus:bg-fairway focus:px-4 focus:py-2 focus:text-paper"
+      >
+        Skip to content
+      </a>
       <header className="sticky top-0 z-30 border-b border-paper-edge bg-paper/85 backdrop-blur-sm">
         <div className="mx-auto flex max-w-shell items-center justify-between gap-4 px-5 py-3">
           <Link href="/" className="group flex items-baseline gap-2">
@@ -24,7 +30,9 @@ export function PageShell({ children }: { children: React.ReactNode }) {
         </div>
       </header>
 
-      <main className="flex-1">{children}</main>
+      <main id="main" className="flex-1">
+        {children}
+      </main>
 
       <footer className="mt-24 border-t border-paper-edge bg-paper-deep/40">
         <div className="mx-auto max-w-shell px-5 py-12">
