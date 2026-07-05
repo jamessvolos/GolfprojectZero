@@ -9,46 +9,38 @@
 
 /* ============================================================
    THE STRATEGIC LINE — notes on golf course architecture.
-   Design language: dark-academia green + a very quiet clubhouse.
-   Deep bottle/library green is the foundation; walnut, leather and
-   oxblood are small warm accents; brass is the single gilt highlight;
-   aged parchment is the reading ground. Deliberately single-world.
+   Design language: simple vintage. An old golf book — aged paper,
+   walnut-brown chrome, forest green as the second tone, flat ochre
+   brass, double-ruled frames and printed-plate diagrams. Matte and
+   quiet; nothing glossy. Deliberately single-world.
    ============================================================ */
 
 :root {
-  /* Dark-academia green — the foundation (library, baize, bottle glass) */
-  --green-abyss: #12231a;
-  --green-deep: #1a2f23;
-  --green: #24402f;
-  --green-lamp: #2f5a40; /* banker's-lamp green, used sparingly */
+  --paper: #ebe1c6;       /* aged paper */
+  --paper-2: #e2d6b4;
+  --parchment: #f3ead1;   /* lightest, for plates */
+  --ink: #2a1f14;         /* deep brown-black ink */
+  --ink-soft: #564835;
+  --ink-faint: #8a7855;
 
-  /* Parchment — the reading ground */
-  --paper: #ece4cf;
-  --paper-2: #e2d8bd;
-  --parchment: #f4ecd7;
-  --cream: #eae0c7; /* text/marks on the dark green */
+  --brown: #3a2817;       /* walnut — chrome (header/hero/footer) */
+  --brown-2: #4b3622;
+  --green: #33503b;       /* forest — the second tone */
+  --green-deep: #294130;
+  --green-tint: rgba(51, 80, 59, 0.08);
 
-  /* Ink */
-  --ink: #23201a;
-  --ink-soft: #4b4536;
-  --ink-faint: #7b7360;
-
-  /* Brass — the one gilt accent */
-  --brass: #ab8748;
-  --brass-bright: #c8a763;
-  --brass-deep: #7f6231;
-
-  /* Small warm accents, used sparingly */
-  --walnut: #3a2c22;
-  --leather: #573824;
+  --brass: #a9823f;       /* flat ochre brass — the one accent */
+  --brass-2: #c39c56;
+  --brass-deep: #7d5f2b;
   --oxblood: #7a322c;
 
-  --line: rgba(35, 32, 26, 0.16);
-  --line-soft: rgba(35, 32, 26, 0.1);
-  --line-cream: rgba(234, 224, 199, 0.16);
-  --line-brass: rgba(171, 135, 72, 0.42);
+  --cream: #efe6cd;       /* type/marks on the dark grounds */
 
-  --room: 1120px;
+  --line: rgba(42, 31, 20, 0.26);       /* ruled lines (vintage weight) */
+  --line-soft: rgba(42, 31, 20, 0.14);
+  --line-cream: rgba(239, 230, 205, 0.26);
+
+  --room: 1080px;
   --read: 40rem;
 
   --f-display: "Playfair Display", "Hoefler Text", Georgia, serif;
@@ -65,29 +57,22 @@ body {
   color: var(--ink);
   font-family: var(--f-body);
   font-size: 19px;
-  line-height: 1.68;
+  line-height: 1.66;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
-/* A faint, even paper grain — much quieter than before */
+/* Faint even paper grain — flat and dry, like old stock */
 body::before {
   content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  opacity: 0.5;
-  mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  opacity: 0.6; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
 }
 
 h1, h2, h3, h4 {
   font-family: var(--f-display);
-  font-weight: 700;
-  line-height: 1.12;
-  text-wrap: balance;
-  margin: 0;
+  font-weight: 700; line-height: 1.14; text-wrap: balance; margin: 0;
 }
 p { margin: 0; }
 a { color: inherit; }
@@ -96,258 +81,201 @@ em { font-style: italic; }
 .wrap { width: 100%; max-width: var(--room); margin: 0 auto; padding: 0 32px; }
 
 .eyebrow {
-  font-family: var(--f-ui);
-  text-transform: uppercase;
-  letter-spacing: 0.26em;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--brass-deep);
+  font-family: var(--f-ui); text-transform: uppercase; letter-spacing: 0.28em;
+  font-size: 10.5px; font-weight: 600; color: var(--brass-deep);
 }
-.on-dark .eyebrow, .dark .eyebrow { color: var(--brass-bright); }
+.on-dark .eyebrow { color: var(--brass-2); }
 .num { font-variant-numeric: tabular-nums; }
 
-/* ---- Dark green surfaces ---- */
-.dark {
-  position: relative;
-  background: var(--green-abyss);
-  color: var(--cream);
-}
-/* an even, very faint vertical striation — the tone of aged baize */
-.dark::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.5;
-  background-image: repeating-linear-gradient(
-    90deg,
-    rgba(0, 0, 0, 0.16) 0 1px,
-    rgba(255, 255, 255, 0.012) 1px 2px,
-    transparent 2px 6px
-  );
-}
-.dark > * { position: relative; z-index: 1; }
+/* ---- Dark walnut grounds ---- */
+.brownbg { position: relative; background: var(--brown); color: var(--cream); }
+.greenbg { position: relative; background: var(--green); color: var(--cream); }
 
-/* Hairlines — the quiet clubhouse detail */
-.hair { border: 0; border-top: 1px solid var(--line); margin: 0; }
-.hair-brass { border: 0; border-top: 1px solid var(--line-brass); margin: 0; }
-.hair-brass-dark { border: 0; border-top: 1px solid rgba(200, 167, 99, 0.3); margin: 0; }
+/* Ruled dividers */
+.rule { border: 0; border-top: 1px solid var(--line); margin: 0; }
+.rule-brass { border: 0; border-top: 1px solid var(--brass); margin: 0; }
+.rule-cream { border: 0; border-top: 1px solid var(--line-cream); margin: 0; }
+
+/* Fleuron / ornamented divider (vintage) */
+.orn { display: flex; align-items: center; gap: 16px; }
+.orn::before, .orn::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+.orn i { width: 7px; height: 7px; transform: rotate(45deg); background: var(--brass); box-shadow: 0 0 0 3px var(--paper), 0 0 0 4px var(--brass); }
 
 /* ---- Header ---- */
 .site-header { position: sticky; top: 0; z-index: 40; }
-.header-bar {
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 20px; padding: 15px 0;
-}
+.header-bar { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; padding: 16px 0; }
 .mark { display: flex; align-items: baseline; gap: 12px; text-decoration: none; color: var(--cream); }
-.mark .wordmark { font-family: var(--f-display); font-weight: 700; font-size: 20px; letter-spacing: 0.01em; }
-.mark .estd {
-  font-family: var(--f-ui); text-transform: uppercase; letter-spacing: 0.22em;
-  font-size: 9.5px; color: rgba(234, 224, 199, 0.5);
-}
-.nav { display: flex; align-items: center; gap: 2px; flex-wrap: wrap; }
+.mark .wordmark { font-family: var(--f-display); font-weight: 700; font-size: 20px; }
+.mark .estd { font-family: var(--f-ui); text-transform: uppercase; letter-spacing: 0.22em; font-size: 9.5px; color: rgba(239, 230, 205, 0.5); }
+.nav { display: flex; align-items: baseline; gap: 4px; flex-wrap: wrap; }
 .nav a {
-  font-family: var(--f-ui); font-size: 12px; letter-spacing: 0.08em;
-  text-transform: uppercase; color: rgba(234, 224, 199, 0.66);
-  text-decoration: none; padding: 8px 13px; border-radius: 2px; cursor: pointer;
-  transition: color 0.18s ease;
-  position: relative;
+  font-family: var(--f-ui); font-size: 12px; letter-spacing: 0.09em;
+  text-transform: uppercase; color: rgba(239, 230, 205, 0.68);
+  text-decoration: none; padding: 6px 11px; cursor: pointer;
+  border-bottom: 1px solid transparent; transition: color 0.18s ease, border-color 0.18s ease;
 }
-.nav a::after {
-  content: ""; position: absolute; left: 13px; right: 13px; bottom: 4px;
-  height: 1px; background: var(--brass-bright); transform: scaleX(0);
-  transform-origin: left; transition: transform 0.22s ease;
-}
-.nav a:hover { color: var(--cream); }
-.nav a:hover::after { transform: scaleX(1); }
-.nav a[aria-current="page"] { color: var(--brass-bright); }
-.nav a[aria-current="page"]::after { transform: scaleX(1); }
-.nav a:focus-visible, .mark:focus-visible { outline: 1px solid var(--brass-bright); outline-offset: 3px; }
+.nav a:hover { color: var(--cream); border-bottom-color: var(--brass-2); }
+.nav a[aria-current="page"] { color: var(--brass-2); border-bottom-color: var(--brass-2); }
+.nav a:focus-visible, .mark:focus-visible { outline: 1px solid var(--brass-2); outline-offset: 3px; }
 
-/* ---- Views / sections ---- */
 .view[hidden] { display: none; }
-section { padding: 74px 0; }
+section { padding: 70px 0; }
 
 /* ---- Hero ---- */
 .hero { padding: 0; }
-.hero-inner {
-  display: grid; grid-template-columns: 1.25fr 0.75fr; gap: 56px;
-  align-items: center; padding: 88px 0 80px;
-}
-.hero h1 {
-  font-size: clamp(34px, 5vw, 60px);
-  letter-spacing: -0.005em;
-  font-weight: 700;
-}
-.hero h1 em { color: var(--brass-bright); }
-.hero .lede {
-  margin-top: 24px; max-width: 42ch; font-size: 19.5px;
-  color: rgba(234, 224, 199, 0.82); line-height: 1.7;
-}
+.hero-inner { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 54px; align-items: center; padding: 82px 0 76px; }
+.hero h1 { font-size: clamp(34px, 5vw, 58px); letter-spacing: -0.005em; }
+.hero h1 em { color: var(--brass-2); }
+.hero .lede { margin-top: 22px; max-width: 42ch; font-size: 19.5px; color: rgba(239, 230, 205, 0.84); line-height: 1.68; }
 .begin {
-  display: inline-block; margin-top: 30px;
-  font-family: var(--f-ui); font-size: 13px; letter-spacing: 0.05em;
-  color: var(--brass-bright); text-decoration: none; cursor: pointer;
-  border-bottom: 1px solid var(--line-brass); padding-bottom: 3px;
-  transition: border-color 0.18s ease;
+  display: inline-block; margin-top: 28px;
+  font-family: var(--f-ui); font-size: 12.5px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--cream); text-decoration: none; cursor: pointer;
+  border: 1px solid var(--brass); padding: 11px 20px; transition: background 0.18s ease, color 0.18s ease;
 }
-.begin:hover { border-color: var(--brass-bright); }
-.begin span { display: inline-block; transition: transform 0.18s ease; }
-.begin:hover span { transform: translateX(4px); }
-.begin:focus-visible { outline: 1px solid var(--brass-bright); outline-offset: 3px; }
+.begin:hover { background: var(--brass); color: var(--brown); }
+.begin span { display: inline-block; }
+.begin:focus-visible { outline: 1px solid var(--brass-2); outline-offset: 3px; }
 
-/* Framed schematic — a small print on the wall */
+/* ---- Printed-plate diagram (a figure in an old book) ---- */
 figure.frame { margin: 0; }
 .frame .plate {
-  position: relative; overflow: hidden;
-  aspect-ratio: 5 / 4; display: grid; place-items: center;
-  background: radial-gradient(120% 100% at 30% 20%, #234634 0%, #12251b 70%);
-  border: 10px solid;
-  border-image: linear-gradient(150deg, var(--brass-bright), var(--brass-deep)) 1;
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4), inset 0 0 44px rgba(0, 0, 0, 0.5);
+  position: relative; aspect-ratio: 5 / 4; display: grid; place-items: center;
+  background: var(--parchment);
+  border: 1px solid var(--ink);
+  box-shadow: 0 0 0 5px var(--parchment), 0 0 0 6px var(--ink);
 }
-.frame .plate svg { width: 84%; height: auto; }
+.frame .plate svg { width: 88%; height: auto; }
 .frame figcaption {
-  font-family: var(--f-ui); font-size: 10px; letter-spacing: 0.16em;
-  text-transform: uppercase; color: var(--brass-deep);
-  text-align: center; padding: 12px 0 0;
+  font-family: var(--f-ui); font-size: 10.5px; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--ink-faint);
+  text-align: center; padding: 20px 0 0;
 }
-.dark .frame figcaption { color: var(--brass-bright); }
+.on-dark .frame figcaption { color: rgba(239, 230, 205, 0.7); }
+.frame figcaption b { color: var(--brass-deep); font-weight: 600; }
+.on-dark .frame figcaption b { color: var(--brass-2); }
 
-/* ---- Catalogue index (the three ways in) ---- */
+/* ---- Catalogue index ---- */
 .section-lead { max-width: 44ch; }
-.section-lead h2 { font-size: clamp(26px, 3.2vw, 36px); margin-top: 12px; }
-.section-lead p { color: var(--ink-soft); margin-top: 14px; }
+.section-lead h2 { font-size: clamp(26px, 3.2vw, 35px); margin-top: 12px; }
+.section-lead p { color: var(--ink-soft); margin-top: 13px; }
 
-.index { margin-top: 40px; border-top: 1px solid var(--line); }
+.index { margin-top: 36px; border-top: 1px solid var(--line); }
 .index-row {
-  display: grid; grid-template-columns: auto 1fr auto; gap: 28px;
-  align-items: baseline; padding: 26px 6px; border-bottom: 1px solid var(--line);
+  display: grid; grid-template-columns: auto 1fr auto; gap: 26px; align-items: baseline;
+  padding: 25px 4px; border-bottom: 1px solid var(--line);
   text-decoration: none; color: inherit; cursor: pointer;
   transition: background 0.2s ease, padding-left 0.2s ease;
 }
-.index-row:hover { background: rgba(47, 90, 64, 0.05); padding-left: 14px; }
+.index-row:hover { background: var(--green-tint); padding-left: 12px; }
 .index-row:focus-visible { outline: 1px solid var(--brass); outline-offset: -2px; }
-.index-row .rn {
-  font-family: var(--f-display); font-size: 26px; color: var(--brass);
-  font-weight: 700; min-width: 1.6em;
-}
-.index-row .body h3 { font-size: 24px; }
-.index-row .body p { margin-top: 6px; color: var(--ink-soft); max-width: 52ch; font-size: 17px; }
-.index-row .go {
-  font-family: var(--f-ui); font-size: 11px; letter-spacing: 0.12em;
-  text-transform: uppercase; color: var(--brass-deep); white-space: nowrap;
-  align-self: center;
-}
+.index-row .rn { font-family: var(--f-display); font-size: 25px; color: var(--green); font-weight: 700; min-width: 1.7em; }
+.index-row .body h3 { font-size: 23px; }
+.index-row .body p { margin-top: 5px; color: var(--ink-soft); max-width: 52ch; font-size: 17px; }
+.index-row .go { font-family: var(--f-ui); font-size: 11px; letter-spacing: 0.13em; text-transform: uppercase; color: var(--brass-deep); white-space: nowrap; align-self: center; }
 .index-row .go span { display: inline-block; transition: transform 0.18s ease; }
 .index-row:hover .go span { transform: translateX(4px); }
 
-/* ---- Quiet statistics line (thin green band) ---- */
+/* ---- Statistics band (green) ---- */
 .statline { padding: 0; }
 .statline .inner {
-  display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
-  gap: 10px 30px; padding: 26px 0;
-  font-family: var(--f-ui); font-size: 12.5px; letter-spacing: 0.06em;
-  text-transform: uppercase; color: rgba(234, 224, 199, 0.72);
+  display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 10px 28px;
+  padding: 24px 0; font-family: var(--f-ui); font-size: 12.5px; letter-spacing: 0.07em;
+  text-transform: uppercase; color: rgba(239, 230, 205, 0.74);
 }
-.statline b { color: var(--brass-bright); font-weight: 600; }
-.statline .dot { color: rgba(234, 224, 199, 0.28); }
+.statline b { color: var(--brass-2); font-weight: 600; }
+.statline .dot { color: rgba(239, 230, 205, 0.3); }
 
 /* ---- Pull quote ---- */
-.pull { max-width: var(--read); margin: 0 auto; padding-left: 26px; border-left: 2px solid var(--brass); }
+.pull { max-width: var(--read); margin: 0 auto; text-align: center; }
 .pull .q { font-family: var(--f-display); font-style: italic; font-weight: 600; font-size: clamp(21px, 2.6vw, 27px); line-height: 1.4; color: var(--ink); }
-.pull .by { margin-top: 16px; font-family: var(--f-ui); text-transform: uppercase; letter-spacing: 0.14em; font-size: 11px; color: var(--ink-faint); }
+.pull .by { margin-top: 18px; font-family: var(--f-ui); text-transform: uppercase; letter-spacing: 0.15em; font-size: 11px; color: var(--ink-faint); }
 
 /* ---- Template page ---- */
 .crumb { font-family: var(--f-ui); font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 22px; }
 .crumb a { color: var(--brass-deep); text-decoration: none; cursor: pointer; }
 .crumb a:hover { text-decoration: underline; }
-.page-title { font-size: clamp(36px, 5.5vw, 58px); }
-.origin { font-family: var(--f-ui); text-transform: uppercase; letter-spacing: 0.12em; font-size: 12px; color: var(--brass-deep); margin-top: 12px; }
+.page-title { font-size: clamp(36px, 5.5vw, 56px); }
+.origin { font-family: var(--f-ui); text-transform: uppercase; letter-spacing: 0.13em; font-size: 12px; color: var(--brass-deep); margin-top: 12px; }
 .lead-para { color: var(--ink-soft); max-width: 54ch; margin-top: 18px; font-size: 19px; }
 
-.tpl-head { display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 48px; align-items: start; }
+.tpl-head { display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 46px; align-items: start; }
 .tpl-head figure.frame { align-self: start; }
 
-/* strategic idea — a quiet green-tinted block, brass left rule */
+/* strategic idea — flat green-tinted block, double top/bottom rule */
 .idea {
-  margin: 40px 0; padding: 30px 34px; max-width: var(--read);
-  background: rgba(47, 90, 64, 0.07);
-  border-left: 2px solid var(--brass);
-  border-radius: 1px;
+  margin: 40px 0; padding: 30px 0; max-width: var(--read);
+  border-top: 2px solid var(--green); border-bottom: 1px solid var(--line);
 }
-.idea .eyebrow { margin-bottom: 12px; }
+.idea .eyebrow { margin-bottom: 12px; color: var(--green-deep); }
 .idea p { font-size: 20px; line-height: 1.55; color: var(--ink); }
 .idea strong { font-weight: 700; }
 
-/* instances — a clean catalogue table, no heavy chrome */
-.tbl-note { font-family: var(--f-ui); font-size: 12px; color: var(--ink-faint); margin: 4px 0 16px; }
+/* instances — plain catalogue table */
+.subhead { font-size: 22px; margin: 10px 0 3px; }
+.tbl-note { font-family: var(--f-ui); font-size: 12px; color: var(--ink-faint); margin: 0 0 14px; }
 .table-scroll { overflow-x: auto; }
-table.cat {
-  width: 100%; min-width: 560px; border-collapse: collapse; font-size: 16px;
-}
+table.cat { width: 100%; min-width: 560px; border-collapse: collapse; font-size: 16px; }
 table.cat thead th {
-  font-family: var(--f-ui); font-size: 10.5px; letter-spacing: 0.14em;
-  text-transform: uppercase; color: var(--brass-deep); font-weight: 600;
-  text-align: right; padding: 0 14px 10px; border-bottom: 1px solid var(--line-brass);
-  white-space: nowrap;
+  font-family: var(--f-ui); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--brass-deep); font-weight: 600; text-align: right; padding: 0 14px 10px;
+  border-bottom: 2px solid var(--line); white-space: nowrap;
 }
 table.cat thead th:first-child, table.cat tbody td:first-child { text-align: left; }
-table.cat tbody td { padding: 14px 14px; text-align: right; border-bottom: 1px solid var(--line-soft); font-variant-numeric: tabular-nums; color: var(--ink); }
-table.cat tbody tr:hover td { background: rgba(47, 90, 64, 0.05); }
+table.cat tbody td { padding: 14px; text-align: right; border-bottom: 1px solid var(--line-soft); font-variant-numeric: tabular-nums; color: var(--ink); }
+table.cat tbody tr:hover td { background: var(--green-tint); }
 .course-cell { font-family: var(--f-display); font-weight: 600; }
 
 .fidelity { display: inline-flex; gap: 3px; justify-content: flex-end; }
-.fidelity .pip { width: 15px; height: 4px; border-radius: 2px; background: var(--line); }
+.fidelity .pip { width: 15px; height: 4px; background: var(--line); }
 .fidelity .pip.on { background: var(--brass); }
 
-.chips { display: flex; flex-wrap: wrap; align-items: center; gap: 9px; margin-top: 30px; }
+.chips { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 28px; }
 .chip-lbl { font-family: var(--f-ui); text-transform: uppercase; letter-spacing: 0.12em; font-size: 10.5px; color: var(--ink-faint); margin-right: 2px; }
-.chip { font-family: var(--f-ui); font-size: 12.5px; color: var(--ink); border: 1px solid var(--line-brass); border-radius: 2px; padding: 6px 12px; }
-.chip-alt { border-color: rgba(47, 90, 64, 0.4); color: var(--green-lamp); }
+.chip { font-family: var(--f-ui); font-size: 12.5px; color: var(--ink); border: 1px solid var(--brass); padding: 5px 11px; }
+.chip-alt { border-color: var(--green); color: var(--green-deep); }
 
-/* ---- Notes (design language) ---- */
-.swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(146px, 1fr)); gap: 12px; margin-top: 8px; }
-.swatch { border: 1px solid var(--line); border-radius: 2px; overflow: hidden; }
-.swatch .chip-c { height: 66px; }
-.swatch .meta { padding: 9px 11px; background: var(--parchment); }
+/* ---- Notes ---- */
+.swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(144px, 1fr)); gap: 10px; margin-top: 8px; }
+.swatch { border: 1px solid var(--line); }
+.swatch .chip-c { height: 60px; }
+.swatch .meta { padding: 8px 10px; background: var(--parchment); }
 .swatch .nm { font-family: var(--f-ui); font-size: 12px; font-weight: 600; }
 .swatch .hex { font-family: ui-monospace, Menlo, monospace; font-size: 10.5px; color: var(--ink-faint); margin-top: 2px; }
-.spec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; margin-top: 30px; }
+.spec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; margin-top: 28px; }
+.spec { border: 1px solid var(--line); padding: 24px; }
 .spec h3 { font-size: 19px; margin-bottom: 14px; }
-.spec .row + .row { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line); }
+.spec .row + .row { margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--line); }
 .spec .tag { font-family: var(--f-ui); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); }
-.ts-d { font-family: var(--f-display); font-weight: 700; font-size: 32px; line-height: 1.05; margin-top: 6px; }
+.ts-d { font-family: var(--f-display); font-weight: 700; font-size: 31px; line-height: 1.05; margin-top: 6px; }
 .ts-b { font-family: var(--f-body); font-size: 19px; margin-top: 6px; }
 .ts-u { font-family: var(--f-ui); text-transform: uppercase; letter-spacing: 0.2em; font-size: 12px; font-weight: 600; margin-top: 8px; }
 .notes { color: var(--ink-soft); padding-left: 18px; margin: 0; }
 .notes li { margin-top: 9px; }
 .notes b { color: var(--ink); }
 
-.subhead { font-size: 22px; margin: 12px 0 4px; }
-
 /* ---- Footer ---- */
-.footer-inner { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; padding: 58px 0 26px; }
-.footer-inner h4 { font-family: var(--f-ui); font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--brass-bright); margin-bottom: 14px; }
-.footer-inner a { display: block; color: rgba(234, 224, 199, 0.68); text-decoration: none; font-size: 15px; padding: 5px 0; cursor: pointer; }
-.footer-inner a:hover { color: var(--brass-bright); }
+.footer-inner { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 38px; padding: 54px 0 24px; }
+.footer-inner h4 { font-family: var(--f-ui); font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--brass-2); margin-bottom: 13px; }
+.footer-inner a { display: block; color: rgba(239, 230, 205, 0.68); text-decoration: none; font-size: 15px; padding: 5px 0; cursor: pointer; }
+.footer-inner a:hover { color: var(--brass-2); }
 .footer-brand .wordmark { font-family: var(--f-display); font-weight: 700; font-size: 22px; }
-.footer-brand p { color: rgba(234, 224, 199, 0.55); margin-top: 12px; max-width: 42ch; font-size: 15px; }
-.footer-legal { padding: 18px 0 40px; font-family: var(--f-ui); font-size: 11px; letter-spacing: 0.03em; color: rgba(234, 224, 199, 0.42); }
+.footer-brand p { color: rgba(239, 230, 205, 0.55); margin-top: 12px; max-width: 42ch; font-size: 15px; }
+.footer-legal { padding: 16px 0 40px; font-family: var(--f-ui); font-size: 11px; letter-spacing: 0.03em; color: rgba(239, 230, 205, 0.42); }
 
-/* ---- Motion (subtle; JS-armed so no-JS shows all) ---- */
-.js .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.8s ease, transform 0.8s ease; }
+/* ---- Motion (quiet) ---- */
+.js .reveal { opacity: 0; transform: translateY(14px); transition: opacity 0.8s ease, transform 0.8s ease; }
 .js .reveal.in { opacity: 1; transform: none; }
-::view-transition-old(root), ::view-transition-new(root) { animation-duration: 0.34s; }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: 0.32s; }
 
 /* ---- Responsive ---- */
-@media (max-width: 880px) {
-  .hero-inner { grid-template-columns: 1fr; gap: 44px; padding: 60px 0; }
+@media (max-width: 860px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 42px; padding: 58px 0; }
   .hero figure.frame { max-width: 380px; }
   .tpl-head { grid-template-columns: 1fr; gap: 34px; }
   .tpl-head figure.frame { max-width: 380px; }
   .spec-grid { grid-template-columns: 1fr; }
-  .footer-inner { grid-template-columns: 1fr 1fr; gap: 28px; }
+  .footer-inner { grid-template-columns: 1fr 1fr; gap: 26px; }
 }
 @media (max-width: 560px) {
   body { font-size: 18px; }
@@ -365,11 +293,11 @@ table.cat tbody tr:hover td { background: rgba(47, 90, 64, 0.05); }
 
 <script>document.documentElement.classList.add("js");</script>
 
-<a href="#main" style="position:absolute;left:-999px;top:8px;background:var(--brass);color:#1a130a;padding:9px 15px;z-index:100;border-radius:2px" onfocus="this.style.left='12px'" onblur="this.style.left='-999px'">Skip to content</a>
+<a href="#main" style="position:absolute;left:-999px;top:8px;background:var(--brass);color:#2a1f14;padding:9px 15px;z-index:100" onfocus="this.style.left='12px'" onblur="this.style.left='-999px'">Skip to content</a>
 
 <!-- ===================== HEADER ===================== -->
 <header class="site-header">
-  <div class="dark on-dark">
+  <div class="brownbg on-dark">
     <div class="wrap header-bar">
       <a class="mark" href="#" data-view="home" aria-label="The Strategic Line — home">
         <span class="wordmark">The Strategic Line</span>
@@ -382,7 +310,7 @@ table.cat tbody tr:hover td { background: rgba(47, 90, 64, 0.05); }
         <a data-view="notes" class="hide-sm">Notes</a>
       </nav>
     </div>
-    <hr class="hair-brass-dark" />
+    <hr class="rule-cream" />
   </div>
 </header>
 
@@ -391,7 +319,7 @@ table.cat tbody tr:hover td { background: rgba(47, 90, 64, 0.05); }
 <!-- ===================== HOME ===================== -->
 <div class="view" data-view-panel="home">
 
-  <section class="hero dark on-dark">
+  <section class="hero brownbg on-dark">
     <div class="wrap hero-inner">
       <div>
         <p class="eyebrow">Golf course architecture · a study</p>
@@ -402,19 +330,20 @@ table.cat tbody tr:hover td { background: rgba(47, 90, 64, 0.05); }
           reads it best. These are working notes on that idea — the template
           holes it left us, and the decisions they still pose.
         </p>
-        <a class="begin" data-view="template">Begin with the Redan <span aria-hidden="true">→</span></a>
+        <a class="begin" data-view="template">Begin with the Redan</a>
       </div>
       <figure class="frame">
         <div class="plate">
-          <svg viewBox="0 0 200 150" role="img" aria-label="Schematic of the Redan template hole">
-            <path d="M96 42 L152 54 L140 84 L86 70 Z" fill="#2f5a40" fill-opacity="0.4" stroke="#9dbfa6" stroke-width="1.3"/>
-            <ellipse cx="94" cy="82" rx="14" ry="6.5" fill="#c8b78a" fill-opacity="0.75"/>
-            <circle cx="44" cy="126" r="3" fill="#eae0c7"/>
-            <path d="M44 126 Q120 118 152 68 T118 58" fill="none" stroke="#c8a763" stroke-width="1.6" stroke-dasharray="4 3" stroke-linecap="round"/>
-            <circle cx="118" cy="58" r="2.6" fill="#c8a763"/>
+          <svg viewBox="0 0 220 150" role="img" aria-label="Schematic of the Redan template hole">
+            <path d="M104 40 L166 54 L150 88 L92 72 Z" fill="#33503b" fill-opacity="0.16" stroke="#33503b" stroke-width="1.5"/>
+            <ellipse cx="100" cy="86" rx="15" ry="7" fill="none" stroke="#8a7856" stroke-width="1"/>
+            <path d="M89 83 L111 89 M91 79 L109 93 M93 90 L107 81" stroke="#b8a578" stroke-width="0.7"/>
+            <circle cx="44" cy="128" r="2.8" fill="#2a1f14"/>
+            <path d="M44 128 Q126 120 166 66 T126 58" fill="none" stroke="#a9823f" stroke-width="1.6" stroke-dasharray="4 3" stroke-linecap="round"/>
+            <circle cx="126" cy="58" r="2.6" fill="#a9823f"/>
           </svg>
         </div>
-        <figcaption>Redan · North Berwick, 15th</figcaption>
+        <figcaption><b>Fig. I</b> — The Redan · North Berwick, 15th</figcaption>
       </figure>
     </div>
   </section>
@@ -459,25 +388,27 @@ table.cat tbody tr:hover td { background: rgba(47, 90, 64, 0.05); }
     </div>
   </section>
 
-  <section class="statline dark on-dark">
+  <section class="statline greenbg">
     <div class="wrap inner">
       <span><b>Eight</b> templates catalogued</span>
-      <span class="dot">·</span>
+      <span class="dot">◆</span>
       <span>The Golden Age, <b>1900–1937</b></span>
-      <span class="dot">·</span>
+      <span class="dot">◆</span>
       <span><b>Four</b> decisions, in full</span>
-      <span class="dot">·</span>
+      <span class="dot">◆</span>
       <span>No fabricated numbers</span>
     </div>
   </section>
 
   <section>
-    <div class="wrap">
+    <div class="wrap" style="max-width:760px">
+      <div class="orn" style="margin-bottom:34px"><i></i></div>
       <blockquote class="pull reveal">
         <p class="q">“The ideal hole should provide an infinite variety of shots
           according to the varying capabilities of the players.”</p>
         <p class="by">— Alister MacKenzie, on strategic design</p>
       </blockquote>
+      <div class="orn" style="margin-top:34px"><i></i></div>
     </div>
   </section>
 
@@ -501,15 +432,16 @@ table.cat tbody tr:hover td { background: rgba(47, 90, 64, 0.05); }
         </div>
         <figure class="frame">
           <div class="plate">
-            <svg viewBox="0 0 200 150" role="img" aria-label="Schematic of the Redan">
-              <path d="M96 42 L152 54 L140 84 L86 70 Z" fill="#2f5a40" fill-opacity="0.4" stroke="#9dbfa6" stroke-width="1.3"/>
-              <ellipse cx="94" cy="82" rx="14" ry="6.5" fill="#c8b78a" fill-opacity="0.75"/>
-              <circle cx="44" cy="126" r="3" fill="#eae0c7"/>
-              <path d="M44 126 Q120 118 152 68 T118 58" fill="none" stroke="#c8a763" stroke-width="1.6" stroke-dasharray="4 3" stroke-linecap="round"/>
-              <circle cx="118" cy="58" r="2.6" fill="#c8a763"/>
+            <svg viewBox="0 0 220 150" role="img" aria-label="Schematic of the Redan">
+              <path d="M104 40 L166 54 L150 88 L92 72 Z" fill="#33503b" fill-opacity="0.16" stroke="#33503b" stroke-width="1.5"/>
+              <ellipse cx="100" cy="86" rx="15" ry="7" fill="none" stroke="#8a7856" stroke-width="1"/>
+              <path d="M89 83 L111 89 M91 79 L109 93 M93 90 L107 81" stroke="#b8a578" stroke-width="0.7"/>
+              <circle cx="44" cy="128" r="2.8" fill="#2a1f14"/>
+              <path d="M44 128 Q126 120 166 66 T126 58" fill="none" stroke="#a9823f" stroke-width="1.6" stroke-dasharray="4 3" stroke-linecap="round"/>
+              <circle cx="126" cy="58" r="2.6" fill="#a9823f"/>
             </svg>
           </div>
-          <figcaption>Gold marks the intended line</figcaption>
+          <figcaption><b>Fig. I</b> — Gold marks the intended line</figcaption>
         </figure>
       </div>
 
@@ -557,13 +489,13 @@ table.cat tbody tr:hover td { background: rgba(47, 90, 64, 0.05); }
     <div class="wrap">
       <p class="crumb"><a data-view="home">The Strategic Line</a> &nbsp;/&nbsp; Notes</p>
       <p class="eyebrow">The design language</p>
-      <h1 class="page-title">Green, parchment &amp; brass</h1>
-      <p class="lead-para">Dark-academia green as the foundation — the tone of
-        library baize and bottle glass — kept quiet, with parchment for reading
-        and a single gilt accent. Walnut, leather and oxblood appear only in
-        small warm doses. A deliberately single, aged world.</p>
+      <h1 class="page-title">Paper, walnut &amp; green</h1>
+      <p class="lead-para">A simple, vintage register — an old golf book. Aged
+        paper for reading, walnut brown for the chrome, forest green as the
+        second tone, and a single flat ochre brass. Matte and ruled; nothing
+        glossy. A deliberately single, aged world.</p>
 
-      <h3 class="subhead" style="margin-top:34px">Palette</h3>
+      <h3 class="subhead" style="margin-top:32px">Palette</h3>
       <div class="swatches" id="swatches"></div>
 
       <div class="spec-grid">
@@ -584,16 +516,16 @@ table.cat tbody tr:hover td { background: rgba(47, 90, 64, 0.05); }
           </div>
         </div>
         <div class="spec">
-          <h3>Restraint</h3>
+          <h3>The vintage rules</h3>
           <ul class="notes">
-            <li><b>Green leads.</b> The dark surfaces are bottle green, not wood;
-              walnut and leather are accents, not the room.</li>
-            <li><b>Hairlines, not hardware.</b> A single 1px brass rule replaces
-              chunky beams and shiny fittings.</li>
-            <li><b>One accent.</b> Brass, used sparingly — rules, numerals, the
-              line of play.</li>
-            <li><b>Quiet motion.</b> Slow fades and a view-transition crossfade;
-              nothing that announces itself.</li>
+            <li><b>Two woods, one page.</b> Walnut brown for the chrome, forest
+              green for the second tone — both on aged paper.</li>
+            <li><b>Flat, not glossy.</b> No sheen or drop shadows; surfaces are
+              matte, edges are square.</li>
+            <li><b>Ruled, like a book.</b> Double rules frame the plates; single
+              rules divide the catalogue; a small fleuron marks a pause.</li>
+            <li><b>One accent.</b> Flat ochre brass — rules, numerals, the line
+              of play.</li>
           </ul>
         </div>
       </div>
@@ -602,11 +534,11 @@ table.cat tbody tr:hover td { background: rgba(47, 90, 64, 0.05); }
         <div class="spec">
           <h3>Diagrams &amp; data</h3>
           <ul class="notes">
-            <li>Hole schematics as small framed prints on a green ground — a gold
-              dashed line for the intended play.</li>
+            <li>Hole schematics as printed plates — a double-ruled frame, a
+              <b>Fig.</b> caption, a gold dashed line for the intended play.</li>
             <li>Tables as plain catalogues: a brass small-caps header over
               hairline rows, figures in tabular numerals.</li>
-            <li>Fidelity as brass pips — analytical, but quiet.</li>
+            <li>Fidelity as flat brass pips — analytical, but quiet.</li>
           </ul>
         </div>
         <div class="spec">
@@ -614,7 +546,7 @@ table.cat tbody tr:hover td { background: rgba(47, 90, 64, 0.05); }
           <ul class="notes">
             <li>Low, warm, lamp-lit light — dusk and interiors. Push toward
               green-gold; let shadows go deep.</li>
-            <li>Archival images as framed prints: a thin brass mat, a little
+            <li>Archival images as framed prints: a thin double mat, a little
               grain, an engraved caption.</li>
             <li>Course photography in rich, shallow focus — the ground and its
               contours, never the sky.</li>
@@ -628,8 +560,8 @@ table.cat tbody tr:hover td { background: rgba(47, 90, 64, 0.05); }
 </main>
 
 <!-- ===================== FOOTER ===================== -->
-<footer class="dark on-dark">
-  <hr class="hair-brass-dark" />
+<footer class="brownbg on-dark">
+  <hr class="rule-cream" />
   <div class="wrap footer-inner">
     <div class="footer-brand">
       <div class="wordmark">The Strategic Line</div>
@@ -650,7 +582,7 @@ table.cat tbody tr:hover td { background: rgba(47, 90, 64, 0.05); }
     </div>
   </div>
   <div class="wrap footer-legal">
-    A concept study · aesthetic after the great clubhouse reading rooms · illustrative content.
+    A concept study · aesthetic after the old clubhouse reading rooms · illustrative content.
   </div>
 </footer>
 
@@ -660,14 +592,10 @@ table.cat tbody tr:hover td { background: rgba(47, 90, 64, 0.05); }
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var panels = document.querySelectorAll("[data-view-panel]");
   var navLinks = document.querySelectorAll(".nav a[data-view]");
-
   function swap(view, anchor) {
     panels.forEach(function (p) { p.hidden = p.getAttribute("data-view-panel") !== view; });
     navLinks.forEach(function (a) { a.setAttribute("aria-current", a.getAttribute("data-view") === view ? "page" : "false"); });
-    if (anchor) {
-      var el = document.getElementById(anchor);
-      if (el) { el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" }); return; }
-    }
+    if (anchor) { var el = document.getElementById(anchor); if (el) { el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" }); return; } }
     window.scrollTo({ top: 0, behavior: "auto" });
   }
   function show(view, anchor) {
@@ -675,9 +603,7 @@ table.cat tbody tr:hover td { background: rgba(47, 90, 64, 0.05); }
     else { swap(view, anchor); }
   }
   document.addEventListener("click", function (e) {
-    var t = e.target.closest("[data-view]");
-    if (!t) return;
-    e.preventDefault();
+    var t = e.target.closest("[data-view]"); if (!t) return; e.preventDefault();
     show(t.getAttribute("data-view"), t.getAttribute("data-anchor"));
   });
 
@@ -690,20 +616,17 @@ table.cat tbody tr:hover td { background: rgba(47, 90, 64, 0.05); }
   function pips(n) { var s = ""; for (var i = 0; i < 5; i++) s += "<i class='pip" + (i < n ? " on" : "") + "'></i>"; return "<span class='fidelity' title='" + n + " of 5'>" + s + "</span>"; }
   var ib = document.getElementById("inst-body");
   if (ib) ib.innerHTML = INST.map(function (r) {
-    return "<tr><td class='course-cell'>" + r[0] + "</td><td>" + r[1] +
-      "</td><td style='text-align:left;color:var(--ink-soft)'>" + r[2] + "</td><td>" + pips(r[3]) + "</td></tr>";
+    return "<tr><td class='course-cell'>" + r[0] + "</td><td>" + r[1] + "</td><td style='text-align:left;color:var(--ink-soft)'>" + r[2] + "</td><td>" + pips(r[3]) + "</td></tr>";
   }).join("");
 
   var SW = [
-    ["Green abyss", "#12231a", "--green-abyss"],
-    ["Bottle green", "#1a2f23", "--green-deep"],
-    ["Lamp green", "#2f5a40", "--green-lamp"],
-    ["Parchment", "#ece4cf", "--paper"],
-    ["Cream on dark", "#eae0c7", "--cream"],
-    ["Antique brass", "#ab8748", "--brass"],
-    ["Brass bright", "#c8a763", "--brass-bright"],
-    ["Ink", "#23201a", "--ink"],
-    ["Walnut", "#3a2c22", "--walnut"],
+    ["Aged paper", "#ebe1c6", "--paper"],
+    ["Walnut brown", "#3a2817", "--brown"],
+    ["Forest green", "#33503b", "--green"],
+    ["Ochre brass", "#a9823f", "--brass"],
+    ["Brass light", "#c39c56", "--brass-2"],
+    ["Ink", "#2a1f14", "--ink"],
+    ["Parchment", "#f3ead1", "--parchment"],
     ["Oxblood", "#7a322c", "--oxblood"]
   ];
   var sw = document.getElementById("swatches");
@@ -714,9 +637,7 @@ table.cat tbody tr:hover td { background: rgba(47, 90, 64, 0.05); }
   if (reduce || !("IntersectionObserver" in window)) {
     document.querySelectorAll(".reveal").forEach(function (el) { el.classList.add("in"); });
   } else {
-    var io = new IntersectionObserver(function (es) {
-      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
-    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.1 });
+    var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }); }, { rootMargin: "0px 0px -8% 0px", threshold: 0.1 });
     document.querySelectorAll(".reveal").forEach(function (el) { io.observe(el); });
   }
 })();
