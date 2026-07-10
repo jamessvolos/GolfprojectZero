@@ -307,19 +307,110 @@ section { padding: 30px 0 70px; }
   "use strict";
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  /* ---- Schematics: each template drawn on a light plate ---- */
-  var G = "#2f5140", GF = "rgba(47,81,64,0.16)", S = "#a08a5f", B = "#a9823f", K = "#23201a";
-  var SHAPES = {
-    redan: "<path d='M96 34 L150 46 L138 74 L84 60 Z' fill='"+GF+"' stroke='"+G+"' stroke-width='1.4'/><ellipse cx='92' cy='70' rx='13' ry='6' fill='none' stroke='"+S+"'/><circle cx='40' cy='112' r='2.6' fill='"+K+"'/><path d='M40 112 Q120 104 150 60 T112 50' fill='none' stroke='"+B+"' stroke-width='1.5' stroke-dasharray='4 3' stroke-linecap='round'/><circle cx='112' cy='50' r='2.4' fill='"+B+"'/>",
-    cape: "<path d='M18 98 L120 40 L166 40 L166 120 L18 120 Z' fill='rgba(160,138,95,0.16)'/><path d='M118 34 L152 34 L152 58 L108 58 Z' fill='"+GF+"' stroke='"+G+"' stroke-width='1.3'/><circle cx='34' cy='122' r='2.6' fill='"+K+"'/><path d='M34 122 L130 46' stroke='"+B+"' stroke-width='1.8'/><path d='M34 122 Q58 92 124 54' fill='none' stroke='"+K+"' stroke-width='1' stroke-dasharray='3 3' opacity='0.45'/><circle cx='130' cy='46' r='2.4' fill='"+B+"'/>",
-    alps: "<path d='M52 80 L82 42 L112 72 L142 40 L166 76' fill='none' stroke='"+K+"' stroke-width='1.4'/><path d='M100 28 L152 28 L152 42 L100 42 Z' fill='"+GF+"' stroke='"+G+"' stroke-width='1.3'/><ellipse cx='108' cy='84' rx='17' ry='5.5' fill='none' stroke='"+S+"'/><circle cx='38' cy='114' r='2.6' fill='"+K+"'/><path d='M38 114 Q92 96 112 62' fill='none' stroke='"+B+"' stroke-width='1.5' stroke-dasharray='4 3'/><circle cx='124' cy='40' r='2.4' fill='"+B+"'/>",
-    eden: "<path d='M76 40 L144 40 L152 68 L68 68 Z' fill='"+GF+"' stroke='"+G+"' stroke-width='1.4'/><ellipse cx='134' cy='76' rx='10' ry='5' fill='none' stroke='"+S+"'/><ellipse cx='82' cy='78' rx='11' ry='5.5' fill='none' stroke='"+S+"'/><circle cx='110' cy='118' r='2.6' fill='"+K+"'/><path d='M110 118 L110 68' stroke='"+B+"' stroke-width='1.5' stroke-dasharray='4 3'/><circle cx='110' cy='52' r='2.4' fill='"+B+"'/>",
-    road: "<line x1='66' y1='28' x2='160' y2='44' stroke='"+K+"' stroke-width='1.5'/><path d='M72 44 L152 56 L148 70 L68 56 Z' fill='"+GF+"' stroke='"+G+"' stroke-width='1.4'/><ellipse cx='92' cy='64' rx='8' ry='4' fill='none' stroke='"+S+"'/><circle cx='34' cy='118' r='2.6' fill='"+K+"'/><path d='M34 118 L120 92' stroke='"+B+"' stroke-width='1.5' stroke-dasharray='4 3'/><path d='M120 92 L130 62' stroke='"+B+"' stroke-width='1.5' stroke-dasharray='4 3'/><circle cx='130' cy='60' r='2.4' fill='"+B+"'/>",
-    short: "<circle cx='110' cy='54' r='29' fill='"+GF+"' stroke='"+G+"' stroke-width='1.3'/><path d='M93 47 Q110 34 127 47 Q131 58 120 63' fill='none' stroke='"+G+"' opacity='0.7'/><ellipse cx='110' cy='20' rx='10' ry='4' fill='none' stroke='"+S+"'/><ellipse cx='147' cy='54' rx='4' ry='10' fill='none' stroke='"+S+"'/><ellipse cx='73' cy='54' rx='4' ry='10' fill='none' stroke='"+S+"'/><circle cx='110' cy='118' r='2.6' fill='"+K+"'/><path d='M110 118 L110 64' stroke='"+B+"' stroke-width='1.5' stroke-dasharray='4 3'/><circle cx='116' cy='52' r='2.4' fill='"+B+"'/>",
-    biarritz: "<path d='M76 32 L144 32 L144 76 L76 76 Z' fill='"+GF+"' stroke='"+G+"' stroke-width='1.3'/><rect x='76' y='50' width='68' height='9' fill='rgba(160,138,95,0.3)'/><ellipse cx='68' cy='54' rx='4' ry='12' fill='none' stroke='"+S+"'/><ellipse cx='152' cy='54' rx='4' ry='12' fill='none' stroke='"+S+"'/><circle cx='110' cy='120' r='2.6' fill='"+K+"'/><path d='M110 120 L110 38' stroke='"+B+"' stroke-width='1.5' stroke-dasharray='4 3'/><circle cx='110' cy='38' r='2.4' fill='"+B+"'/>",
-    punchbowl: "<ellipse cx='110' cy='54' rx='42' ry='27' fill='rgba(160,138,95,0.14)' stroke='"+S+"'/><ellipse cx='110' cy='54' rx='27' ry='16' fill='"+GF+"' stroke='"+G+"' stroke-width='1.3'/><ellipse cx='110' cy='54' rx='13' ry='7' fill='none' stroke='"+G+"' opacity='0.5'/><circle cx='110' cy='122' r='2.6' fill='"+K+"'/><path d='M110 122 Q110 92 110 62' fill='none' stroke='"+B+"' stroke-width='1.5' stroke-dasharray='4 3'/><circle cx='110' cy='54' r='2.4' fill='"+B+"'/>"
-  };
-  function svg(slug) { return "<svg viewBox='0 0 200 140' role='img' aria-label='Schematic of the " + slug + " template'>" + (SHAPES[slug] || "") + "</svg>"; }
+  /* ---- Aerial-style illustrations (mirrors the site's SchematicDiagram):
+     gradient turf, contour shading, textured bunkers with depth, water,
+     pin flags, and the gold dashed line of play. Ids suffixed per svg. ---- */
+  var GRN_STROKE = "#20362a", CONTOUR = "#8bb89a", SAND_LINE = "#a98f5c",
+      K = "#23201a", B = "#a9823f";
+  var svgUid = 0;
+
+  function defs(u) {
+    return "<defs>" +
+      "<radialGradient id='grn-" + u + "' cx='40%' cy='32%' r='80%'>" +
+        "<stop offset='0%' stop-color='#5f8d6d'/><stop offset='58%' stop-color='#3c6149'/><stop offset='100%' stop-color='#274233'/></radialGradient>" +
+      "<linearGradient id='snd-" + u + "' x1='0' y1='0' x2='0' y2='1'>" +
+        "<stop offset='0%' stop-color='#ecdcb0'/><stop offset='100%' stop-color='#c6ac74'/></linearGradient>" +
+      "<linearGradient id='wtr-" + u + "' x1='0' y1='0' x2='0' y2='1'>" +
+        "<stop offset='0%' stop-color='#5f918c'/><stop offset='100%' stop-color='#325f5b'/></linearGradient>" +
+      "<linearGradient id='turf-" + u + "' x1='0' y1='0' x2='0' y2='1'>" +
+        "<stop offset='0%' stop-color='#c9cf9f' stop-opacity='0.32'/><stop offset='100%' stop-color='#8fa06a' stop-opacity='0.14'/></linearGradient>" +
+      "<filter id='sh-" + u + "' x='-25%' y='-25%' width='150%' height='160%'>" +
+        "<feDropShadow dx='0' dy='1.3' stdDeviation='1.3' flood-color='#182619' flood-opacity='0.34'/></filter>" +
+      "</defs>";
+  }
+  function green(u, d, contours) {
+    var s = "<path d='" + d + "' fill='url(#grn-" + u + ")' filter='url(#sh-" + u + ")'/>";
+    (contours || []).forEach(function (c) {
+      s += "<path d='" + c + "' fill='none' stroke='" + CONTOUR + "' stroke-width='0.9' stroke-opacity='0.4'/>";
+    });
+    return s + "<path d='" + d + "' fill='none' stroke='" + GRN_STROKE + "' stroke-width='1' stroke-opacity='0.75'/>";
+  }
+  function bunker(u, cx, cy, rx, ry) {
+    return "<g filter='url(#sh-" + u + ")'>" +
+      "<ellipse cx='" + cx + "' cy='" + cy + "' rx='" + rx + "' ry='" + ry + "' fill='url(#snd-" + u + ")' stroke='" + SAND_LINE + "' stroke-width='0.8'/>" +
+      "<ellipse cx='" + cx + "' cy='" + (cy + ry * 0.3) + "' rx='" + rx * 0.78 + "' ry='" + ry * 0.5 + "' fill='#7a6537' opacity='0.2'/></g>";
+  }
+  function water(u, d) {
+    return "<path d='" + d + "' fill='url(#wtr-" + u + ")'/>" +
+      "<path d='" + d + "' fill='none' stroke='#cfe6df' stroke-width='0.7' stroke-opacity='0.45' stroke-dasharray='7 5'/>";
+  }
+  function tee(x, y) {
+    return "<rect x='" + (x - 5) + "' y='" + (y - 3) + "' width='10' height='6' rx='2' fill='#4f7458' opacity='0.85'/>" +
+      "<circle cx='" + x + "' cy='" + y + "' r='1.5' fill='" + K + "'/>";
+  }
+  function line(d) {
+    return "<path d='" + d + "' fill='none' stroke='" + B + "' stroke-width='1.7' stroke-dasharray='4 3' stroke-linecap='round'/>";
+  }
+  function flag(x, y) {
+    return "<circle cx='" + x + "' cy='" + y + "' r='1.5' fill='#2a2018'/>" +
+      "<line x1='" + x + "' y1='" + y + "' x2='" + x + "' y2='" + (y - 12) + "' stroke='#3a2b1c' stroke-width='1'/>" +
+      "<path d='M" + x + " " + (y - 12) + " l 7 2.2 l -7 2.2 z' fill='" + B + "'/>";
+  }
+
+  function shape(slug, u) {
+    switch (slug) {
+      case "redan":
+        return green(u, "M96 34 L150 46 L138 74 L84 60 Z", ["M92 46 Q118 52 140 62", "M98 40 Q120 46 144 54"]) +
+          bunker(u, 90, 70, 13, 6) + tee(40, 112) +
+          line("M40 112 Q120 104 150 60 T112 50") + flag(112, 50);
+      case "cape":
+        return water(u, "M18 98 L120 40 L168 40 L168 122 L18 122 Z") +
+          green(u, "M116 34 L152 34 L152 58 L108 58 Z", ["M110 46 L150 46"]) + tee(34, 122) +
+          "<path d='M34 122 L130 46' fill='none' stroke='" + B + "' stroke-width='2' stroke-linecap='round'/>" +
+          "<path d='M34 122 Q58 92 124 54' fill='none' stroke='#efe6cd' stroke-width='1' stroke-dasharray='3 3' opacity='0.6'/>" +
+          flag(130, 44);
+      case "alps":
+        return "<path d='M46 84 L82 42 L112 74 L142 38 L172 80 L172 92 L46 92 Z' fill='#4a6b52' opacity='0.5'/>" +
+          "<path d='M46 84 L82 42 L112 74 L142 38 L172 80' fill='none' stroke='#2c4636' stroke-width='1.3'/>" +
+          green(u, "M100 28 L150 28 L150 42 L100 42 Z", ["M100 35 L150 35"]) +
+          bunker(u, 108, 86, 17, 5.5) + tee(38, 114) +
+          line("M38 114 Q92 96 112 62") + flag(124, 35);
+      case "eden":
+        return green(u, "M78 40 L142 40 L150 66 L70 66 Z", ["M74 54 L146 54", "M76 48 L144 48"]) +
+          bunker(u, 132, 74, 11, 5.5) + bunker(u, 84, 76, 12, 6) + tee(110, 116) +
+          line("M110 116 L110 66") + flag(110, 50);
+      case "road":
+        return "<line x1='70' y1='30' x2='158' y2='44' stroke='#5a5147' stroke-width='3' stroke-linecap='round'/>" +
+          "<line x1='70' y1='30' x2='158' y2='44' stroke='#7d7264' stroke-width='1' stroke-dasharray='5 4'/>" +
+          green(u, "M74 44 L150 56 L146 68 L70 56 Z", ["M72 56 L148 62"]) +
+          bunker(u, 92, 62, 9, 4.5) + tee(36, 116) +
+          line("M36 116 L120 92 L128 62") + flag(128, 58);
+      case "short":
+        return green(u, "M110 54 m-30 0 a30 30 0 1 0 60 0 a30 30 0 1 0 -60 0", ["M92 46 Q110 34 128 46 Q132 58 120 63"]) +
+          bunker(u, 110, 20, 11, 4.5) + bunker(u, 148, 54, 5, 11) + bunker(u, 72, 54, 5, 11) + bunker(u, 110, 88, 11, 4.5) +
+          tee(110, 120) + line("M110 120 L110 64") + flag(116, 50);
+      case "biarritz":
+        return green(u, "M78 34 L142 34 L142 74 L78 74 Z") +
+          "<rect x='78' y='50' width='64' height='9' fill='#2c4a38' opacity='0.55'/>" +
+          "<line x1='78' y1='50' x2='142' y2='50' stroke='#1e3428' stroke-width='0.8'/>" +
+          "<line x1='78' y1='59' x2='142' y2='59' stroke='#1e3428' stroke-width='0.8'/>" +
+          bunker(u, 70, 54, 4.5, 13) + bunker(u, 150, 54, 4.5, 13) + tee(110, 118) +
+          line("M110 118 L110 40") + flag(110, 40);
+      case "punchbowl":
+        return "<ellipse cx='110' cy='54' rx='42' ry='27' fill='#38553f' opacity='0.45'/>" +
+          "<ellipse cx='110' cy='54' rx='42' ry='27' fill='none' stroke='#2c4636' stroke-width='1'/>" +
+          green(u, "M110 54 m-27 0 a27 16 0 1 0 54 0 a27 16 0 1 0 -54 0", ["M110 54 m-13 0 a13 7 0 1 0 26 0 a13 7 0 1 0 -26 0"]) +
+          tee(110, 120) + line("M110 120 Q110 92 110 62") + flag(110, 52);
+    }
+    return "";
+  }
+  function svg(slug) {
+    var u = "s" + (svgUid++);
+    return "<svg viewBox='0 0 200 140' role='img' aria-label='Illustration of the " + slug + " template hole'>" +
+      defs(u) +
+      "<rect x='0' y='0' width='200' height='140' fill='url(#turf-" + u + ")' rx='4'/>" +
+      shape(slug, u) + "</svg>";
+  }
 
   /* ---- The eight templates ---- */
   var T = [
