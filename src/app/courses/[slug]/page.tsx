@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CrossLinkChip } from "@/components/CrossLinkChip";
+import { Figure } from "@/components/Figure";
 import { FidelityMeter } from "@/components/FidelityMeter";
 import { MarkdownProse } from "@/components/MarkdownProse";
+import { SchematicDiagram } from "@/components/SchematicDiagram";
 import { getAllCourses, getCourseBySlug } from "@/lib/queries";
 import { excerpt } from "@/lib/site";
 
@@ -33,7 +35,6 @@ export default async function CoursePage({
   const templateHoles = course.holes.filter(
     (h) => h.templateInstances.length > 0,
   );
-  const decisionHoles = course.holes.filter((h) => h.decisionBrief);
 
   return (
     <div className="mx-auto max-w-shell px-5 py-14">
@@ -44,6 +45,16 @@ export default async function CoursePage({
         <span className="mx-2">/</span>
         <span className="text-ink-soft">{course.name}</span>
       </nav>
+
+      {course.photoUrl && (
+        <Figure
+          photoUrl={course.photoUrl}
+          photoCredit={course.photoCredit}
+          alt={`${course.name}, ${course.location}`}
+          fallback={null}
+          className="mb-10 overflow-hidden rounded-sm border border-paper-edge [&_img]:aspect-[21/9]"
+        />
+      )}
 
       <div className="grid gap-10 lg:grid-cols-[1.6fr_1fr]">
         {/* Main column */}
@@ -80,36 +91,6 @@ export default async function CoursePage({
               </MarkdownProse>
             </section>
           )}
-
-          {/* Decision breakdowns on this course */}
-          {decisionHoles.length > 0 && (
-            <section className="mt-10">
-              <h2 className="mb-4 font-serif text-2xl text-ink">
-                Modelled decisions here
-              </h2>
-              <ul className="space-y-3">
-                {decisionHoles.map((h) => (
-                  <li key={h.id}>
-                    <Link
-                      href={`/decisions/${h.slug}`}
-                      className="group flex items-baseline justify-between gap-4 rounded-sm border border-paper-edge bg-paper p-4 hover:border-gold"
-                    >
-                      <span className="font-serif text-lg text-ink group-hover:text-fairway">
-                        Hole {h.number}
-                        <span className="ml-2 text-sm text-ink-faint">
-                          Par {h.par}
-                          {h.yardage ? ` · ${h.yardage} yds` : ""}
-                        </span>
-                      </span>
-                      <span className="text-sm text-fairway-deep">
-                        Model the choice →
-                      </span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
         </div>
 
         {/* Side column: holes + template instances */}
@@ -120,22 +101,29 @@ export default async function CoursePage({
               <ul className="space-y-2">
                 {templateHoles.map((h) =>
                   h.templateInstances.map((inst) => (
-                    <li
-                      key={inst.id}
-                      className="rounded-sm border border-paper-edge bg-paper p-4"
-                    >
-                      <div className="flex items-center justify-between gap-2">
-                        <Link
-                          href={`/templates/${inst.template.slug}`}
-                          className="font-serif text-lg text-ink hover:text-fairway"
-                        >
-                          {inst.template.name}
-                        </Link>
-                        <FidelityMeter value={inst.fidelity} />
-                      </div>
-                      <p className="mt-1 text-sm text-ink-faint">
-                        Hole {h.number} · Par {h.par}
-                      </p>
+                    <li key={inst.id}>
+                      <Link
+                        href={`/templates/${inst.template.slug}`}
+                        className="group flex items-center gap-4 rounded-sm border border-paper-edge bg-paper-card p-4 transition-colors hover:border-fairway"
+                      >
+                        <span className="w-20 shrink-0">
+                          <SchematicDiagram
+                            slug={inst.template.slug}
+                            size="plate"
+                          />
+                        </span>
+                        <span className="min-w-0 flex-1">
+                          <span className="flex items-center justify-between gap-2">
+                            <span className="font-serif text-lg text-ink group-hover:text-fairway">
+                              {inst.template.name}
+                            </span>
+                            <FidelityMeter value={inst.fidelity} />
+                          </span>
+                          <span className="mt-1 block text-sm text-ink-faint">
+                            Hole {h.number} · Par {h.par}
+                          </span>
+                        </span>
+                      </Link>
                     </li>
                   )),
                 )}
@@ -164,11 +152,6 @@ export default async function CoursePage({
                           {inst.template.name}
                         </span>
                       ))}
-                      {h.decisionBrief && (
-                        <span className="rounded-full bg-fairway-wash px-2 py-0.5 text-xs text-fairway-deep">
-                          Decision
-                        </span>
-                      )}
                     </span>
                   </li>
                 ))}

@@ -2,8 +2,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CompareTray, type InstanceData } from "@/components/CompareTray";
 import { CrossLinkChip } from "@/components/CrossLinkChip";
+import { Figure } from "@/components/Figure";
 import { MarkdownProse } from "@/components/MarkdownProse";
 import { SchematicDiagram } from "@/components/SchematicDiagram";
+import { SchematicLegend } from "@/components/SchematicLegend";
 import { getAllTemplates, getTemplateBySlug } from "@/lib/queries";
 import { excerpt } from "@/lib/site";
 
@@ -77,6 +79,24 @@ export default async function TemplateDetailPage({
     notes: inst.notes,
   }));
 
+  // At-a-glance facts, computed from the instances.
+  const countries = new Set(
+    template.instances.map((i) => i.hole.course.country).filter(Boolean),
+  );
+  const topFidelity = template.instances.reduce(
+    (m, i) => Math.max(m, i.fidelity),
+    0,
+  );
+  const facts: { label: string; value: string }[] = [
+    { label: "Instances", value: String(template.instances.length) },
+    { label: "Architects", value: String(architects.size) },
+    { label: "Countries", value: String(countries.size) },
+    {
+      label: "Truest to type",
+      value: topFidelity ? `${topFidelity} / 5` : "—",
+    },
+  ];
+
   return (
     <div className="mx-auto max-w-shell px-5 py-14">
       <Breadcrumb name={template.name} />
@@ -97,16 +117,40 @@ export default async function TemplateDetailPage({
             {template.description}
           </MarkdownProse>
         </div>
-        <div className="rounded-sm border border-paper-edge bg-paper-deep/30 p-6">
-          <SchematicDiagram slug={template.slug} size="hero" className="mx-auto" />
-          <p className="mt-3 text-center text-xs text-ink-faint">
-            Schematic of the archetype. Gold marks the intended line of play.
-          </p>
+        <div className="rounded-sm border border-paper-edge bg-paper-card p-6">
+          <Figure
+            photoUrl={template.photoUrl}
+            photoCredit={template.photoCredit}
+            alt={`${template.name} template — ${template.originCourse}`}
+            fallback={
+              <SchematicDiagram
+                slug={template.slug}
+                size="hero"
+                className="mx-auto"
+              />
+            }
+          />
+          {!template.photoUrl && (
+            <div className="mt-5 border-t border-paper-edge pt-4">
+              <p className="eyebrow mb-2.5">How to read it</p>
+              <SchematicLegend />
+            </div>
+          )}
         </div>
       </header>
 
-      {/* The strategic idea — the spine. Rendered prominently. */}
-      <section className="my-14 rounded-sm border-l-2 border-gold bg-gold-wash/40 px-6 py-8 sm:px-10 sm:py-10">
+      {/* At a glance */}
+      <dl className="grid grid-cols-2 divide-x divide-paper-edge border-b border-paper-edge sm:grid-cols-4">
+        {facts.map((f) => (
+          <div key={f.label} className="px-5 py-6 first:pl-0">
+            <dt className="eyebrow mb-2">{f.label}</dt>
+            <dd className="font-serif text-3xl text-fairway">{f.value}</dd>
+          </div>
+        ))}
+      </dl>
+
+      {/* The strategic idea — the spine. An engraved brass plaque. */}
+      <section className="plaque my-14 border-l-4 border-l-gold px-6 py-8 sm:px-10 sm:py-10">
         <p className="eyebrow mb-3 text-gold-deep">The strategic idea</p>
         <MarkdownProse className="prose-strategic max-w-3xl text-lg leading-relaxed text-ink [&_strong]:text-fairway-deep">
           {template.strategicIdea}

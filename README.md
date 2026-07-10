@@ -3,24 +3,32 @@
 A site about golf course architecture, built on one thesis: **every great hole
 is a decision problem.** Strategic design — Macdonald, MacKenzie, Ross — doesn't
 punish the golfer; it offers a well-formed choice between risk and reward. This
-site makes that idea explicit and interactive.
+is a study of the holes that idea produced.
 
-Three public pages are three lenses over one shared graph of architects,
-courses, and holes:
+Two pillars over one shared graph of architects, courses, and holes:
 
-- **Templates** (`/templates`) — the Macdonald/Raynor classification system.
-  Each template states the decision it poses and maps every course with a
-  version of it. Compare instances side by side.
-- **Decisions** (`/decisions`) — the site's most distinctive page. Famous
-  strategic holes with the actual choice laid out option by option: reward,
-  risk, and expected-value intuition in parallel.
+- **Templates** (`/templates`) — the Macdonald/Raynor classification, presented
+  as a gallery of hand-drawn hole plates. Each template states the decision it
+  poses, opens with an at-a-glance facts strip and a legend for reading the
+  diagram, and maps every course with a version of it (compare instances side
+  by side).
 - **Atlas** (`/atlas`) — an interactive map + timeline of the golden age
-  (1900–1937) and the minimalist revival. Filter by architect, era, or school;
-  state lives in the URL so map and timeline stay in sync and links are
-  shareable.
+  (1900–1937) and the minimalist revival, plus a scannable course index. Filter
+  by architect, era, or school; state lives in the URL so map and timeline stay
+  in sync and links are shareable. A browsable [`/architects`](/) index groups
+  the designers by era.
 
 Courses (`/courses/[slug]`) and architects (`/architects/[slug]`) are shared
-entities every page links into — the graph is the point.
+entities both pillars link into — the graph is the point.
+
+> **Scope note.** An earlier build also carried a **Decisions** page (holes
+> modelled option-by-option). It has been retired to focus the site on the
+> templates and the atlas. The data model still keeps each hole's optional
+> `decisionBrief`, so the page can return without a migration.
+
+**Design language.** Aged-paper ground, forest green as the lead accent, flat
+ochre brass as the quiet second, a deep-green footer. Playfair Display
+(display) + EB Garamond (reading serif) + Inter (UI labels), via `next/font`.
 
 ## Stack
 

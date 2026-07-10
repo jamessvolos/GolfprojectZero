@@ -3,19 +3,17 @@ import {
   getAllArchitects,
   getAllCourses,
   getAllTemplates,
-  getDecisionHoles,
 } from "@/lib/queries";
 import { SITE_URL } from "@/lib/site";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [templates, decisions, courses, architects] = await Promise.all([
+  const [templates, courses, architects] = await Promise.all([
     getAllTemplates(),
-    getDecisionHoles(),
     getAllCourses(),
     getAllArchitects(),
   ]);
 
-  const staticRoutes = ["", "/templates", "/decisions", "/atlas", "/about"].map(
+  const staticRoutes = ["", "/templates", "/atlas", "/architects", "/about"].map(
     (path) => ({
       url: `${SITE_URL}${path}`,
       changeFrequency: "monthly" as const,
@@ -25,7 +23,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const dynamicRoutes = [
     ...templates.map((t) => `/templates/${t.slug}`),
-    ...decisions.map((d) => `/decisions/${d.slug}`),
     ...courses.map((c) => `/courses/${c.slug}`),
     ...architects.map((a) => `/architects/${a.slug}`),
   ].map((path) => ({

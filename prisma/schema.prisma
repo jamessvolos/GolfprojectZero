@@ -44,6 +44,8 @@ model Course {
   architect    Architect? @relation(fields: [architectId], references: [id])
   restorations String? // markdown: notable restorations + attributions
   summary      String // markdown
+  photoUrl     String? // optional real photo (local /photos/… or remote URL)
+  photoCredit  String? // required attribution when photoUrl is set
   holes        Hole[]
   createdAt    DateTime   @default(now())
 }
@@ -56,6 +58,8 @@ model Template {
   description   String // markdown: what defines this template
   strategicIdea String // markdown: the DECISION the template poses — the site's spine
   diagramUrl    String? // schematic SVG/image of the archetype
+  photoUrl      String? // optional real photo of a canonical instance
+  photoCredit   String? // required attribution when photoUrl is set
   instances     TemplateInstance[]
   createdAt     DateTime           @default(now())
 }

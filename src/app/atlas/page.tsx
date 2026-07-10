@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Suspense } from "react";
 import { AtlasClient } from "@/components/atlas/AtlasClient";
 import type { ArchitectLite, CourseLite } from "@/components/atlas/types";
@@ -43,7 +44,7 @@ export default async function AtlasPage() {
   return (
     <div className="mx-auto max-w-shell px-5 py-14">
       <header className="max-w-prose">
-        <p className="eyebrow mb-4">Pillar III · The golden age, mapped</p>
+        <p className="eyebrow mb-4">Pillar II · The golden age, mapped</p>
         <h1 className="font-serif text-4xl leading-tight text-ink">
           The Golden Age Atlas
         </h1>
@@ -55,9 +56,16 @@ export default async function AtlasPage() {
             selecting an architect highlights their courses across both views.
           </p>
           <p className="text-sm text-ink-faint">
-            Every pin links into the same course profile the other two pillars
-            use. Coordinates are entered by hand — no paid geocoding — so a pin
-            marks the course, roughly, not a survey point.
+            Every pin links into the same course profile the Templates pillar
+            uses. Coordinates are entered by hand — no paid geocoding — so a pin
+            marks the course, roughly, not a survey point. See also the{" "}
+            <Link
+              href="/architects"
+              className="text-fairway underline decoration-fairway/30 underline-offset-2 hover:decoration-fairway"
+            >
+              index of architects
+            </Link>
+            .
           </p>
         </div>
       </header>

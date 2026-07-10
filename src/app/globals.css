@@ -15,11 +15,12 @@ html {
 body {
   background-color: theme("colors.paper.DEFAULT");
   color: theme("colors.ink.DEFAULT");
-  font-family: theme("fontFamily.sans");
-  line-height: 1.7;
+  /* Reading serif — EB Garamond — for the whole body. */
+  font-family: theme("fontFamily.body");
+  line-height: 1.62;
 }
 
-/* Selection in the restrained gold wash. */
+/* Selection in polished brass. */
 ::selection {
   background: theme("colors.gold.wash");
   color: theme("colors.ink.DEFAULT");
@@ -33,8 +34,9 @@ body {
 
   /* Long-form markdown container — the one styled prose surface. */
   .prose-strategic {
-    @apply font-sans text-ink-soft leading-relaxed;
+    @apply font-body text-ink-soft leading-relaxed;
     max-width: 68ch;
+    font-size: 1.05rem;
   }
   .prose-strategic > * + * {
     margin-top: 1.15em;
@@ -79,6 +81,37 @@ body {
   /* Hairline rule in the paper-edge tone. */
   .rule {
     @apply border-t border-paper-edge;
+  }
+
+  /* A framed cream plaque — the engraved wall-plate / champion-board look:
+     aged paper with a double brass edge. */
+  .plaque {
+    @apply rounded-sm border border-gold/40 bg-paper;
+    box-shadow:
+      inset 0 0 0 1px theme("colors.paper.DEFAULT"),
+      inset 0 0 0 2px rgba(174, 138, 70, 0.28);
+  }
+
+  /* Walnut honour board — dark panelled wood for chrome and feature panels. */
+  .honor-board {
+    background-color: theme("colors.walnut.deep");
+    background-image: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.04) 0%,
+      rgba(0, 0, 0, 0.14) 100%
+    );
+  }
+
+  /* Cream text with a faint emboss, for headings set on dark chrome. */
+  .engraved {
+    color: theme("colors.paper.DEFAULT");
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.35);
+  }
+
+  /* A polished-brass hairline — the fitting edge on plates and boards. */
+  .rule-brass {
+    @apply border-t;
+    border-color: rgba(174, 138, 70, 0.45);
   }
 }
 

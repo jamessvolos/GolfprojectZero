@@ -1,4 +1,4 @@
-import { EntityCard } from "@/components/EntityCard";
+import Link from "next/link";
 import { FilterBar, type FilterGroup } from "@/components/FilterBar";
 import { SchematicDiagram } from "@/components/SchematicDiagram";
 import { getAllTemplates } from "@/lib/queries";
@@ -10,7 +10,7 @@ export const metadata = {
     "The Macdonald/Raynor template holes as a classification system — each stating the decision it poses, with every course known to have a version of it.",
 };
 
-type Search = { sort?: string; era?: string };
+type Search = { sort?: string; era?: string; architect?: string };
 
 export default async function TemplatesPage({
   searchParams,
@@ -19,12 +19,30 @@ export default async function TemplatesPage({
 }) {
   const templates = await getAllTemplates();
 
-  // Filter by era of instances (an instance's era = its course's architect's).
+  // Architect options — everyone with at least one mapped instance.
+  const architectMap = new Map<string, string>();
+  for (const t of templates) {
+    for (const i of t.instances) {
+      const a = i.hole.course.architect;
+      if (a) architectMap.set(a.slug, a.name);
+    }
+  }
+  const architectOptions = [...architectMap.entries()]
+    .map(([value, label]) => ({ value, label }))
+    .sort((a, b) => a.label.localeCompare(b.label));
+
+  // Filter by era and/or architect of instances.
   const era = searchParams.era ?? "";
+  const architect = searchParams.architect ?? "";
   let list = templates;
   if (era) {
     list = list.filter((t) =>
       t.instances.some((i) => i.hole.course.architect?.era === era),
+    );
+  }
+  if (architect) {
+    list = list.filter((t) =>
+      t.instances.some((i) => i.hole.course.architect?.slug === architect),
     );
   }
 
@@ -43,6 +61,12 @@ export default async function TemplatesPage({
       label: "Era of instances",
       allLabel: "All eras",
       options: ERAS.map((e) => ({ value: e.value, label: e.label })),
+    },
+    {
+      param: "architect",
+      label: "Used by architect",
+      allLabel: "Any architect",
+      options: architectOptions,
     },
   ];
   const sortGroup: FilterGroup = {
@@ -79,30 +103,58 @@ export default async function TemplatesPage({
         </div>
       </header>
 
-      <div className="py-8">
+      <div className="flex items-end justify-between gap-4 py-8">
         <FilterBar groups={groups} sort={sortGroup} />
+        <p className="hidden shrink-0 pb-1.5 text-sm text-ink-faint sm:block">
+          {list.length} of {templates.length} templates
+        </p>
       </div>
 
-      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {list.map((t) => (
-          <EntityCard
+      {/* The gallery wall — each plate leads with its schematic. */}
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {list.map((t, i) => (
+          <Link
             key={t.id}
             href={`/templates/${t.slug}`}
-            media={
-              <div className="p-3">
-                <SchematicDiagram slug={t.slug} size="thumb" />
-              </div>
-            }
-            eyebrow="Template"
-            title={t.name}
-            subtitle={t.originCourse}
-            footer={
-              <span>
-                {t.instances.length}{" "}
-                {t.instances.length === 1 ? "instance" : "instances"} mapped
+            className="group flex flex-col overflow-hidden rounded-sm border border-paper-edge bg-paper-card transition-all hover:-translate-y-1 hover:border-fairway hover:shadow-[0_14px_30px_rgba(35,28,18,0.12)]"
+          >
+            <div className="relative border-b border-paper-edge">
+              <span className="absolute right-3 top-3 z-10 font-sans text-[0.6rem] tracking-wider text-ink-faint">
+                {String(i + 1).padStart(2, "0")}
               </span>
-            }
-          />
+              {t.photoUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={t.photoUrl}
+                  alt={`${t.name} — ${t.originCourse.split(" — ")[0]}`}
+                  title={t.photoCredit ?? undefined}
+                  loading="lazy"
+                  className="aspect-[3/2] w-full object-cover"
+                />
+              ) : (
+                <div className="p-4">
+                  <SchematicDiagram slug={t.slug} size="plate" />
+                </div>
+              )}
+            </div>
+            <div className="flex flex-1 flex-col p-5">
+              <h3 className="font-serif text-2xl leading-tight text-ink transition-colors group-hover:text-fairway">
+                {t.name}
+              </h3>
+              <p className="mt-1 line-clamp-1 font-sans text-[0.68rem] uppercase tracking-wider text-ink-faint">
+                {t.originCourse.split(" — ")[0]}
+              </p>
+              <div className="mt-auto flex items-center justify-between pt-4">
+                <span className="text-sm text-fairway">
+                  {t.instances.length}{" "}
+                  {t.instances.length === 1 ? "instance" : "instances"}
+                </span>
+                <span className="text-gold transition-transform group-hover:translate-x-1">
+                  →
+                </span>
+              </div>
+            </div>
+          </Link>
         ))}
       </div>
 
