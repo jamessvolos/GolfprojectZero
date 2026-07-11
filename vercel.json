@@ -1,0 +1,9 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nextjs",
+  "build": {
+    "env": {
+      "DATABASE_URL": "file:./dev.db"
+    }
+  }
+}
